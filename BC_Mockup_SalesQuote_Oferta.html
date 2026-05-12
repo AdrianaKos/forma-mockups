@@ -22,7 +22,7 @@ body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 1
   display: flex; height: 48px; width: 48px; min-width: 48px; align-items: center; justify-content: center;
   background: transparent; border: 1px solid #282828; color: #fff; cursor: pointer; font-size: 16px;
 }
-.bc-shell-btn:hover { background: #000; border-color: #000; }
+.bc-shell-btn:hover { background: #3b3b3b; border-color: #3b3b3b; }
 .bc-shell-company { padding: 0 7px; font-size: 13px; }
 
 /* ===== PAGE HEADER ===== */
@@ -92,8 +92,8 @@ body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 1
 }
 .bc-field-row .field-value.readonly { border-color: transparent; background: transparent; }
 .bc-field-row .field-value.required { border-color: #d13438; }
-.bc-field-row .field-value.status { border: none; background: transparent; color: #107c10; font-weight: 600; font-size: 13px; }
-.bc-field-row .field-value.new-field { background: #f0fff0; border-color: #107c10; }
+.bc-field-row .field-value.status { border: none; background: transparent; color: #333; font-weight: 600; font-size: 13px; }
+.bc-field-row .field-value.new-field { background: #f7fbf7; border-color: #8a8886; }
 .bc-field-row .field-value .lookup-btn { color: #0078d4; cursor: pointer; margin-left: 4px; }
 .bc-field-row .required-star { color: #d13438; font-weight: 700; margin-right: 4px; font-size: 14px; }
 .bc-field-row .field-value.date-field { position: relative; }
@@ -123,7 +123,7 @@ body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 1
 .bc-subform-actions .sub-action:hover { background: #f3f2f1; }
 .bc-subform-actions .sub-action .icon { font-size: 13px; }
 .bc-subform-actions .sub-action.disabled { color: #a19f9d; }
-.bc-subform-actions .sub-action.oferta-action { color: #000; font-weight: 600; }
+.bc-subform-actions .sub-action.oferta-action { color: #333; font-weight: 600; }
 
 /* ===== GRID ===== */
 .bc-grid { width: 100%; border-collapse: collapse; font-size: 12px; }
@@ -161,7 +161,7 @@ body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 1
   position: absolute; top: 20px; right: 60px; font-size: 12px; color: #605e5c;
   display: flex; align-items: center; gap: 4px;
 }
-.bc-saved-indicator::before { content: '✓'; color: #107c10; }
+.bc-saved-indicator::before { content: '✓'; color: #605e5c; }
 
 /* Page container */
 .bc-page { position: relative; min-height: 100vh; padding-bottom: 24px; }
@@ -172,13 +172,13 @@ body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 1
 }
 .bc-top-icon {
   width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
-  border-radius: 50%; cursor: pointer; font-size: 16px; color: #0078d4; background: transparent;
+  border-radius: 50%; cursor: pointer; font-size: 14px; color: #605e5c; background: transparent;
   border: none;
 }
 .bc-top-icon:hover { background: #f3f2f1; }
 
 /* New field marker */
-.new-marker { display: inline-block; background: #107c10; color: #fff; font-size: 8px; padding: 1px 4px; border-radius: 2px; font-weight: 700; margin-left: 4px; vertical-align: middle; letter-spacing: 0.5px; }
+.new-marker { display: inline-block; background: #e8e8e8; color: #444; font-size: 8px; padding: 1px 4px; border-radius: 2px; font-weight: 600; margin-left: 4px; vertical-align: middle; letter-spacing: 0.5px; border: 1px solid #c8c6c4; }
 </style>
 </head>
 <body>
@@ -187,11 +187,11 @@ body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 1
   <!-- ===== SHELL BAR ===== -->
   <div class="bc-shell-bar">
     <span class="product-name">Dynamics 365 Business Central</span>
-    <button class="bc-shell-btn bc-shell-company" title="FORMA SYSTEM Sp. z o.o.">🏢</button>
-    <button class="bc-shell-btn" title="Wyszukaj">🔍</button>
-    <button class="bc-shell-btn" title="Powiadomienia">🔔</button>
-    <button class="bc-shell-btn" title="Ustawienia">⚙️</button>
-    <button class="bc-shell-btn" title="Pomoc">❓</button>
+    <button class="bc-shell-btn bc-shell-company" title="FORMA SYSTEM Sp. z o.o." style="font-size:13px;">FORMA SYSTEM</button>
+    <button class="bc-shell-btn" title="Wyszukaj" style="font-size:14px;">⌕</button>
+    <button class="bc-shell-btn" title="Powiadomienia" style="font-size:14px;">⊕</button>
+    <button class="bc-shell-btn" title="Ustawienia" style="font-size:14px;">⛭</button>
+    <button class="bc-shell-btn" title="Pomoc" style="font-size:14px;">?</button>
     <button class="bc-shell-btn" title="Konto użytkownika" style="font-size:13px;font-weight:600;">AK</button>
   </div>
 
@@ -206,10 +206,10 @@ body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 1
 
   <!-- ===== TOP ICONS ===== -->
   <div class="bc-top-icons">
-    <button class="bc-top-icon" title="Edytuj">✏️</button>
-    <button class="bc-top-icon" title="Udostępnij">📤</button>
-    <button class="bc-top-icon" title="Nowy">➕</button>
-    <button class="bc-top-icon" title="Usuń">🗑️</button>
+    <button class="bc-top-icon" title="Edytuj">✎</button>
+    <button class="bc-top-icon" title="Udostępnij">⇧</button>
+    <button class="bc-top-icon" title="Nowy">+</button>
+    <button class="bc-top-icon" title="Usuń">×</button>
   </div>
 
   <!-- ===== MENU TABS ===== -->
@@ -228,11 +228,11 @@ body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 1
 
   <!-- ===== ACTION BAR ===== -->
   <div class="bc-action-bar">
-    <button class="action-btn disabled"><span class="icon">📋</span> Utwórz zamówienie</button>
-    <button class="action-btn disabled"><span class="icon">📄</span> Utwórz fakturę</button>
+    <button class="action-btn disabled"><span class="icon">▪</span> Utwórz zamówienie</button>
+    <button class="action-btn disabled"><span class="icon">▪</span> Utwórz fakturę</button>
     <span class="action-sep"></span>
-    <button class="action-btn"><span class="icon">🔓</span> Zwolnij ▾</button>
-    <button class="action-btn"><span class="icon">📁</span> Archiwizuj dokument</button>
+    <button class="action-btn"><span class="icon">▪</span> Zwolnij ▾</button>
+    <button class="action-btn"><span class="icon">▪</span> Archiwizuj dokument</button>
   </div>
 
   <!-- ===== FASTTAB: Ogólne ===== -->
@@ -268,7 +268,7 @@ body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 1
         <div class="bc-field-row">
           <span class="field-label">Kontakt</span>
           <span class="field-dots"></span>
-          <span class="field-value" style="background:#fffde6;"></span>
+          <span class="field-value"></span>
         </div>
       </div>
       <!-- Right column -->
@@ -314,14 +314,14 @@ body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 1
 
     <!-- Subform actions -->
     <div class="bc-subform-actions">
-      <button class="sub-action disabled"><span class="icon">📝</span> Nowy wiersz</button>
-      <button class="sub-action disabled"><span class="icon">✂️</span> Usuń wiersz</button>
-      <button class="sub-action"><span class="icon">🔍</span> Wybierz zapasy...</button>
-      <button class="sub-action"><span class="icon">📝</span> Wstaw teksty dodatk.</button>
-      <button class="sub-action"><span class="icon">🔖</span> Wymiary</button>
-      <button class="sub-action"><span class="icon">🏷️</span> Atrybuty VAT</button>
-      <button class="sub-action oferta-action"><span class="icon">📋</span> Linie oferty</button>
-      <button class="sub-action oferta-action"><span class="icon">📥</span> Zastosuj wz\u00F3r oferty</button>
+      <button class="sub-action disabled"><span class="icon">▪</span> Nowy wiersz</button>
+      <button class="sub-action disabled"><span class="icon">▪</span> Usuń wiersz</button>
+      <button class="sub-action"><span class="icon">▪</span> Wybierz zapasy...</button>
+      <button class="sub-action"><span class="icon">▪</span> Wstaw teksty dodatk.</button>
+      <button class="sub-action"><span class="icon">▪</span> Wymiary</button>
+      <button class="sub-action"><span class="icon">▪</span> Atrybuty VAT</button>
+      <button class="sub-action oferta-action"><span class="icon">▪</span> Linie oferty</button>
+      <button class="sub-action oferta-action"><span class="icon">▪</span> Zastosuj wzór oferty</button>
     </div>
 
     <!-- Grid -->
