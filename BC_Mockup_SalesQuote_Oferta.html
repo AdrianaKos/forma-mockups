@@ -1,0 +1,448 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oferta sprzedaży - OS/25/05/0001 - BC Mockup</title>
+<style>
+/* ===== BC GLOBAL RESET ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 13px; color: #333; background: #fff; -webkit-font-smoothing: antialiased; }
+
+/* ===== SHELL TOP BAR ===== */
+.bc-shell-bar {
+  background: #282828; color: #fff; height: 48px; width: 100%;
+  display: flex; align-items: center; font-size: 16px;
+}
+.bc-shell-bar .product-name {
+  font-weight: 600; margin-left: 15px; margin-right: auto;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.bc-shell-btn {
+  display: flex; height: 48px; width: 48px; min-width: 48px; align-items: center; justify-content: center;
+  background: transparent; border: 1px solid #282828; color: #fff; cursor: pointer; font-size: 16px;
+}
+.bc-shell-btn:hover { background: #000; border-color: #000; }
+.bc-shell-company { padding: 0 7px; font-size: 13px; }
+
+/* ===== PAGE HEADER ===== */
+.bc-page-caption {
+  padding: 4px 12px 0; font-size: 12px; color: #333;
+}
+.bc-page-caption .page-type { font-size: 12px; color: #555; }
+.bc-page-caption .doc-no { font-size: 22px; font-weight: 400; color: #000; display: block; line-height: 1.3; }
+
+/* ===== MENU TABS ===== */
+.bc-menu-bar {
+  display: flex; border-bottom: 1px solid #e0e0e0; padding: 0 12px; background: #fff;
+  font-size: 13px; flex-wrap: wrap;
+}
+.bc-menu-tab {
+  padding: 6px 12px; color: #0078d4; text-decoration: underline; cursor: pointer; white-space: nowrap;
+}
+.bc-menu-tab:hover { text-decoration: underline; }
+.bc-menu-tab.active { text-decoration: underline; font-weight: 600; }
+.bc-menu-tab.has-arrow::after { content: ' ▾'; font-size: 10px; }
+.bc-menu-sep { border-left: 1px solid #c8c6c4; margin: 4px 4px; }
+
+/* ===== ACTION BAR ===== */
+.bc-action-bar {
+  display: flex; gap: 2px; padding: 4px 12px; border-bottom: 1px solid #edebe9; background: #fff;
+  flex-wrap: wrap; align-items: center;
+}
+.bc-action-bar .action-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; font-size: 12px; color: #333; background: transparent;
+  border: none; cursor: pointer; white-space: nowrap;
+}
+.bc-action-bar .action-btn:hover { background: #f3f2f1; }
+.bc-action-bar .action-btn .icon { font-size: 14px; }
+.bc-action-bar .action-btn.disabled { color: #a19f9d; cursor: default; }
+.bc-action-bar .action-sep { border-left: 1px solid #c8c6c4; margin: 0 6px; height: 20px; }
+
+/* ===== FASTTAB ===== */
+.bc-fasttab {
+  border-bottom: 1px solid #edebe9; margin: 0;
+}
+.bc-fasttab-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 12px; font-size: 14px; font-weight: 600; color: #000;
+  cursor: pointer; user-select: none;
+}
+.bc-fasttab-header .show-more { font-size: 12px; font-weight: 400; color: #0078d4; text-decoration: underline; }
+
+/* ===== CARD FIELDS ===== */
+.bc-card-fields {
+  padding: 4px 12px 12px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px;
+}
+.bc-card-fields .field-col { display: flex; flex-direction: column; }
+.bc-field-row {
+  display: flex; align-items: baseline; padding: 3px 0; min-height: 28px;
+}
+.bc-field-row .field-label {
+  font-size: 13px; color: #333; white-space: nowrap; flex-shrink: 0;
+}
+.bc-field-row .field-dots {
+  flex: 1; border-bottom: 1px dotted #c8c6c4; margin: 0 4px; min-width: 20px; height: 1em;
+}
+.bc-field-row .field-value {
+  font-size: 13px; color: #000; background: #fff; border: 1px solid #8a8886; border-radius: 0;
+  padding: 2px 8px; min-width: 180px; max-width: 280px; height: 26px;
+}
+.bc-field-row .field-value.readonly { border-color: transparent; background: transparent; }
+.bc-field-row .field-value.required { border-color: #d13438; }
+.bc-field-row .field-value.status { border: none; background: transparent; color: #107c10; font-weight: 600; font-size: 13px; }
+.bc-field-row .field-value.new-field { background: #f0fff0; border-color: #107c10; }
+.bc-field-row .field-value .lookup-btn { color: #0078d4; cursor: pointer; margin-left: 4px; }
+.bc-field-row .required-star { color: #d13438; font-weight: 700; margin-right: 4px; font-size: 14px; }
+.bc-field-row .field-value.date-field { position: relative; }
+
+/* ===== SUBFORM ===== */
+.bc-subform { margin: 0; }
+.bc-subform-tabs {
+  display: flex; gap: 0; padding: 0 12px; border-bottom: 1px solid #edebe9;
+  font-size: 13px;
+}
+.bc-subform-tab {
+  padding: 6px 12px; color: #333; cursor: pointer; border-bottom: 2px solid transparent;
+  text-decoration: underline; font-weight: 400;
+}
+.bc-subform-tab:first-child { font-weight: 600; text-decoration: none; border-bottom-color: transparent; }
+.bc-subform-tab.active-sub { text-decoration: underline; color: #0078d4; }
+
+.bc-subform-actions {
+  display: flex; gap: 2px; padding: 4px 12px; border-bottom: 1px solid #edebe9;
+  flex-wrap: wrap; align-items: center;
+}
+.bc-subform-actions .sub-action {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 8px; font-size: 12px; color: #333; background: transparent;
+  border: none; cursor: pointer; white-space: nowrap;
+}
+.bc-subform-actions .sub-action:hover { background: #f3f2f1; }
+.bc-subform-actions .sub-action .icon { font-size: 13px; }
+.bc-subform-actions .sub-action.disabled { color: #a19f9d; }
+.bc-subform-actions .sub-action.oferta-action { color: #000; font-weight: 600; }
+
+/* ===== GRID ===== */
+.bc-grid { width: 100%; border-collapse: collapse; font-size: 12px; }
+.bc-grid thead th {
+  padding: 5px 8px; text-align: left; font-weight: 400; color: #333; font-size: 12px;
+  white-space: nowrap; border-bottom: 1px solid #edebe9; background: #fff;
+  vertical-align: bottom;
+}
+.bc-grid thead th.num { text-align: right; }
+.bc-grid thead th.check { text-align: center; width: 40px; }
+.bc-grid tbody td {
+  padding: 4px 8px; border-bottom: 1px solid #edebe9; white-space: nowrap;
+  vertical-align: middle; height: 28px;
+}
+.bc-grid tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.bc-grid tbody td.check { text-align: center; }
+.bc-grid tbody tr:hover { background: #f3f2f1; }
+.bc-grid tbody tr.selected { background: #e6f2fb; }
+.bc-grid tbody tr .row-indicator { width: 16px; text-align: center; color: #0078d4; font-size: 11px; }
+.bc-grid .editable-cell {
+  border: 1px solid #8a8886; padding: 2px 6px; min-width: 60px; height: 22px;
+  display: inline-block; background: #fff;
+}
+
+/* ===== STATUS BAR ===== */
+.bc-status-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; height: 20px;
+  background: #f3f2f1; border-top: 1px solid #e0e0e0;
+  font-size: 10px; color: #605e5c; padding: 2px 12px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+/* Saved indicator */
+.bc-saved-indicator {
+  position: absolute; top: 20px; right: 60px; font-size: 12px; color: #605e5c;
+  display: flex; align-items: center; gap: 4px;
+}
+.bc-saved-indicator::before { content: '✓'; color: #107c10; }
+
+/* Page container */
+.bc-page { position: relative; min-height: 100vh; padding-bottom: 24px; }
+
+/* Top action icons */
+.bc-top-icons {
+  display: flex; gap: 4px; position: absolute; top: 56px; right: 12px; align-items: center;
+}
+.bc-top-icon {
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; cursor: pointer; font-size: 16px; color: #0078d4; background: transparent;
+  border: none;
+}
+.bc-top-icon:hover { background: #f3f2f1; }
+
+/* New field marker */
+.new-marker { display: inline-block; background: #107c10; color: #fff; font-size: 8px; padding: 1px 4px; border-radius: 2px; font-weight: 700; margin-left: 4px; vertical-align: middle; letter-spacing: 0.5px; }
+</style>
+</head>
+<body>
+<div class="bc-page">
+
+  <!-- ===== SHELL BAR ===== -->
+  <div class="bc-shell-bar">
+    <span class="product-name">Dynamics 365 Business Central</span>
+    <button class="bc-shell-btn bc-shell-company" title="FORMA SYSTEM Sp. z o.o.">🏢</button>
+    <button class="bc-shell-btn" title="Wyszukaj">🔍</button>
+    <button class="bc-shell-btn" title="Powiadomienia">🔔</button>
+    <button class="bc-shell-btn" title="Ustawienia">⚙️</button>
+    <button class="bc-shell-btn" title="Pomoc">❓</button>
+    <button class="bc-shell-btn" title="Konto użytkownika" style="font-size:13px;font-weight:600;">AK</button>
+  </div>
+
+  <!-- ===== PAGE CAPTION ===== -->
+  <div class="bc-page-caption">
+    <span class="page-type">Oferta sprzedaży</span>
+    <span class="doc-no">OS/25/05/0001</span>
+  </div>
+
+  <!-- ===== SAVED INDICATOR ===== -->
+  <div class="bc-saved-indicator">Zapisano</div>
+
+  <!-- ===== TOP ICONS ===== -->
+  <div class="bc-top-icons">
+    <button class="bc-top-icon" title="Edytuj">✏️</button>
+    <button class="bc-top-icon" title="Udostępnij">📤</button>
+    <button class="bc-top-icon" title="Nowy">➕</button>
+    <button class="bc-top-icon" title="Usuń">🗑️</button>
+  </div>
+
+  <!-- ===== MENU TABS ===== -->
+  <div class="bc-menu-bar">
+    <span class="bc-menu-tab active">Strona główna</span>
+    <span class="bc-menu-tab">Przygotuj</span>
+    <span class="bc-menu-tab">Drukuj/Wyślij</span>
+    <span class="bc-menu-tab">Żądaj akceptacji</span>
+    <span class="bc-menu-tab">Oferta</span>
+    <span class="bc-menu-tab">Raport</span>
+    <span class="bc-menu-sep"></span>
+    <span class="bc-menu-tab has-arrow">Akcje</span>
+    <span class="bc-menu-tab has-arrow">Powiązane</span>
+    <span class="bc-menu-tab">Mniej opcji</span>
+  </div>
+
+  <!-- ===== ACTION BAR ===== -->
+  <div class="bc-action-bar">
+    <button class="action-btn disabled"><span class="icon">📋</span> Utwórz zamówienie</button>
+    <button class="action-btn disabled"><span class="icon">📄</span> Utwórz fakturę</button>
+    <span class="action-sep"></span>
+    <button class="action-btn"><span class="icon">🔓</span> Zwolnij ▾</button>
+    <button class="action-btn"><span class="icon">📁</span> Archiwizuj dokument</button>
+  </div>
+
+  <!-- ===== FASTTAB: Ogólne ===== -->
+  <div class="bc-fasttab">
+    <div class="bc-fasttab-header">
+      Ogólne
+      <span class="show-more">Pokaż więcej</span>
+    </div>
+    <div class="bc-card-fields">
+      <!-- Left column -->
+      <div class="field-col">
+        <div class="bc-field-row">
+          <span class="field-label">Nazwa nabywcy</span>
+          <span class="field-dots"></span>
+          <span class="required-star">*</span>
+          <span class="field-value required" style="min-width:240px;">ABC Sp. z o.o. <span class="lookup-btn">...</span></span>
+        </div>
+        <div class="bc-field-row">
+          <span class="field-label">Nr dokumentu zewnętrznego</span>
+          <span class="field-dots"></span>
+          <span class="field-value">OF-ABC-0045</span>
+        </div>
+        <div class="bc-field-row">
+          <span class="field-label">Drawing Reference <span class="new-marker">N24</span></span>
+          <span class="field-dots"></span>
+          <span class="field-value new-field">RYS-2026-045</span>
+        </div>
+        <div class="bc-field-row">
+          <span class="field-label">Voivodeship <span class="new-marker">N24</span></span>
+          <span class="field-dots"></span>
+          <span class="field-value new-field">dolnośląskie</span>
+        </div>
+        <div class="bc-field-row">
+          <span class="field-label">Kontakt</span>
+          <span class="field-dots"></span>
+          <span class="field-value" style="background:#fffde6;"></span>
+        </div>
+      </div>
+      <!-- Right column -->
+      <div class="field-col">
+        <div class="bc-field-row">
+          <span class="field-label">Data dokumentu</span>
+          <span class="field-dots"></span>
+          <span class="field-value">28.05.2025</span>
+        </div>
+        <div class="bc-field-row">
+          <span class="field-label">Termin płatności</span>
+          <span class="field-dots"></span>
+          <span class="field-value"></span>
+        </div>
+        <div class="bc-field-row">
+          <span class="field-label">Żądana data dostawy</span>
+          <span class="field-dots"></span>
+          <span class="field-value"></span>
+        </div>
+        <div class="bc-field-row">
+          <span class="field-label">Stan</span>
+          <span class="field-dots"></span>
+          <span class="field-value status">Otwarte</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SUBFORM: Wiersze ===== -->
+  <div class="bc-subform">
+    <!-- Subform header -->
+    <div class="bc-fasttab-header" style="font-size:14px;">
+      Wiersze
+    </div>
+
+    <!-- Subform tabs -->
+    <div class="bc-subform-tabs">
+      <span class="bc-subform-tab" style="font-weight:600;">Wiersze</span>
+      <span class="bc-subform-tab active-sub">Zarządzaj</span>
+      <span class="bc-subform-tab">Wiersz</span>
+      <span class="bc-subform-tab">Funkcje</span>
+    </div>
+
+    <!-- Subform actions -->
+    <div class="bc-subform-actions">
+      <button class="sub-action disabled"><span class="icon">📝</span> Nowy wiersz</button>
+      <button class="sub-action disabled"><span class="icon">✂️</span> Usuń wiersz</button>
+      <button class="sub-action"><span class="icon">🔍</span> Wybierz zapasy...</button>
+      <button class="sub-action"><span class="icon">📝</span> Wstaw teksty dodatk.</button>
+      <button class="sub-action"><span class="icon">🔖</span> Wymiary</button>
+      <button class="sub-action"><span class="icon">🏷️</span> Atrybuty VAT</button>
+      <button class="sub-action oferta-action"><span class="icon">📋</span> Linie oferty</button>
+      <button class="sub-action oferta-action"><span class="icon">📥</span> Zastosuj wz\u00F3r oferty</button>
+    </div>
+
+    <!-- Grid -->
+    <div style="overflow-x: auto;">
+      <table class="bc-grid">
+        <thead>
+          <tr>
+            <th style="width:20px;"></th>
+            <th>Typ</th>
+            <th>Nr</th>
+            <th class="check">Oferta</th>
+            <th>Opis</th>
+            <th>Kod lokalizacji</th>
+            <th class="num">Ilość</th>
+            <th class="num">Ilość do<br>kompletacji na<br>zamówienie</th>
+            <th>Kod jednostki<br>miary</th>
+            <th class="num">Cena<br>jednostkowa<br>bez VAT</th>
+            <th>Kod grupy<br>podatkowej</th>
+            <th class="num">Rabat wiersza<br>(%)</th>
+            <th class="num">Kwota wiersza<br>bez VAT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="selected">
+            <td class="row-indicator">→</td>
+            <td><span class="editable-cell">Zapas</span></td>
+            <td><span class="editable-cell" style="color:#0078d4;">BLAT-GRN-3060</span></td>
+            <td class="check">☑</td>
+            <td>Blat granitowy 3000x600</td>
+            <td></td>
+            <td class="num">2</td>
+            <td class="num">0</td>
+            <td>SZT</td>
+            <td class="num" style="font-weight:600;">3 745,00</td>
+            <td></td>
+            <td class="num">0</td>
+            <td class="num" style="font-weight:600;">7 490,00</td>
+          </tr>
+          <tr>
+            <td class="row-indicator"></td>
+            <td><span class="editable-cell">Zapas</span></td>
+            <td><span class="editable-cell" style="color:#0078d4;">ZLEWO-PDB-01</span></td>
+            <td class="check">☐</td>
+            <td>Zlew podblatowy ELLECI</td>
+            <td></td>
+            <td class="num">1</td>
+            <td class="num">0</td>
+            <td>SZT</td>
+            <td class="num">1 200,00</td>
+            <td></td>
+            <td class="num">0</td>
+            <td class="num">1 200,00</td>
+          </tr>
+          <tr>
+            <td class="row-indicator"></td>
+            <td><span class="editable-cell">Zasób</span></td>
+            <td><span class="editable-cell" style="color:#0078d4;">TRANS-DL</span></td>
+            <td class="check">☐</td>
+            <td>Transport dolnośląskie</td>
+            <td></td>
+            <td class="num">1</td>
+            <td class="num">0</td>
+            <td>GODZ</td>
+            <td class="num">800,00</td>
+            <td></td>
+            <td class="num">0</td>
+            <td class="num">800,00</td>
+          </tr>
+          <tr>
+            <td class="row-indicator"></td>
+            <td><span class="editable-cell"></span></td>
+            <td><span class="editable-cell"></span></td>
+            <td class="check">☐</td>
+            <td></td>
+            <td></td>
+            <td class="num"></td>
+            <td class="num"></td>
+            <td></td>
+            <td class="num"></td>
+            <td></td>
+            <td class="num"></td>
+            <td class="num"></td>
+          </tr>
+          <tr>
+            <td class="row-indicator"></td>
+            <td><span class="editable-cell"></span></td>
+            <td><span class="editable-cell"></span></td>
+            <td class="check">☐</td>
+            <td></td>
+            <td></td>
+            <td class="num"></td>
+            <td class="num"></td>
+            <td></td>
+            <td class="num"></td>
+            <td></td>
+            <td class="num"></td>
+            <td class="num"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== COLLAPSED FASTTABS ===== -->
+  <div class="bc-fasttab" style="border-top: 1px solid #edebe9;">
+    <div class="bc-fasttab-header" style="color:#555;">
+      ▶ Fakturowanie
+    </div>
+  </div>
+  <div class="bc-fasttab">
+    <div class="bc-fasttab-header" style="color:#555;">
+      ▶ Wysyłka
+    </div>
+  </div>
+
+  <!-- ===== STATUS BAR ===== -->
+  <div class="bc-status-bar">
+    <span>Oferta sprzedaży · Strona 41 + PageExt 50227 (Sales Quote Oferta N24) · Modyfikacja: Ofertowanie Oferta</span>
+    <span>Pola z zielonym tłem = nowe pola N24 (Drawing Reference, Voivodeship) · Akcje Oferta = nowe</span>
+  </div>
+
+</div>
+</body>
+</html>

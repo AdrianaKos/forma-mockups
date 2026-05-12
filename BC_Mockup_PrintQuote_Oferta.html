@@ -1,0 +1,391 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drukuj ofertę Oferta - BC Mockup</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 13px; color: #333; background: #fff; }
+
+.bc-shell-bar { background: #282828; color: #fff; height: 48px; width: 100%; display: flex; align-items: center; font-size: 16px; }
+.bc-shell-bar .product-name { font-weight: 600; margin-left: 15px; margin-right: auto; }
+.bc-shell-btn { display: flex; height: 48px; width: 48px; min-width: 48px; align-items: center; justify-content: center; background: transparent; border: 1px solid #282828; color: #fff; cursor: pointer; font-size: 16px; }
+.bc-shell-btn:hover { background: #000; }
+.bc-shell-company { padding: 0 7px; font-size: 13px; }
+
+.bc-page-caption { padding: 4px 12px 0; }
+.bc-page-caption .page-type { font-size: 12px; color: #555; }
+.bc-page-caption .doc-no { font-size: 22px; font-weight: 400; color: #000; display: block; line-height: 1.3; }
+
+.bc-page { position: relative; min-height: 100vh; padding-bottom: 24px; }
+.bc-top-icons { display: flex; gap: 4px; position: absolute; top: 56px; right: 12px; }
+.bc-top-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; font-size: 16px; color: #0078d4; background: transparent; border: none; }
+.bc-top-icon:hover { background: #f3f2f1; }
+
+.bc-fasttab { border-bottom: 1px solid #edebe9; }
+.bc-fasttab-header { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; font-size: 14px; font-weight: 600; color: #000; cursor: pointer; }
+.bc-fasttab-header .show-more { font-size: 12px; font-weight: 400; color: #0078d4; text-decoration: underline; }
+
+.bc-card-fields { padding: 4px 12px 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; }
+.bc-card-fields .field-col { display: flex; flex-direction: column; }
+.bc-field-row { display: flex; align-items: baseline; padding: 3px 0; min-height: 28px; }
+.bc-field-row .field-label { font-size: 13px; color: #333; white-space: nowrap; flex-shrink: 0; }
+.bc-field-row .field-dots { flex: 1; border-bottom: 1px dotted #c8c6c4; margin: 0 4px; min-width: 20px; height: 1em; }
+.bc-field-row .field-value { font-size: 13px; color: #000; background: transparent; border: none; padding: 2px 0; font-weight: 400; }
+.new-marker { display: inline-block; background: #107c10; color: #fff; font-size: 8px; padding: 1px 4px; border-radius: 2px; font-weight: 700; margin-left: 4px; vertical-align: middle; }
+
+.bc-status-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 20px; background: #f3f2f1; border-top: 1px solid #e0e0e0; font-size: 10px; color: #605e5c; padding: 2px 12px; display: flex; justify-content: space-between; align-items: center; }
+
+/* Print preview area */
+.print-preview { margin: 16px; border: 1px solid #c8c6c4; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+.print-preview-header { background: #f3f2f1; padding: 6px 12px; font-size: 12px; color: #605e5c; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #c8c6c4; }
+.print-preview-header .btn { padding: 4px 12px; background: #0078d4; color: #fff; border: none; border-radius: 3px; cursor: pointer; font-size: 12px; }
+.print-preview-body { padding: 40px 48px; font-family: 'Segoe UI', sans-serif; font-size: 11px; color: #000; }
+
+/* Print document styles */
+.print-doc .doc-header { display: flex; justify-content: space-between; margin-bottom: 24px; }
+.print-doc .doc-header .company { font-size: 16px; font-weight: 700; }
+.print-doc .doc-header .company-addr { font-size: 10px; color: #555; }
+.print-doc .doc-title { font-size: 18px; font-weight: 700; text-align: center; margin: 16px 0 8px; border-bottom: 2px solid #000; padding-bottom: 8px; }
+.print-doc .doc-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; font-size: 11px; margin-bottom: 16px; }
+.print-doc .doc-meta dt { font-weight: 600; }
+.print-doc .doc-meta dd { margin: 0; }
+.print-doc table.print-table { width: 100%; border-collapse: collapse; font-size: 10px; margin-top: 8px; }
+.print-doc table.print-table th { border: 1px solid #333; padding: 4px 6px; background: #e0e0e0; text-align: left; font-size: 10px; }
+.print-doc table.print-table td { border: 1px solid #333; padding: 3px 6px; }
+.print-doc table.print-table td.r { text-align: right; }
+.print-doc .total-row { font-weight: 700; background: #f0f0f0; }
+.print-doc .footer { margin-top: 24px; font-size: 9px; color: #666; text-align: center; border-top: 1px solid #ccc; padding-top: 8px; }
+
+/* Tabs */
+.bc-view-tabs { display: flex; border-bottom: 2px solid #edebe9; padding: 0 12px; margin-top: 8px; }
+.bc-view-tab { padding: 8px 16px; font-size: 13px; cursor: pointer; border-bottom: 3px solid transparent; color: #333; }
+.bc-view-tab.active { border-bottom-color: #0078d4; color: #0078d4; font-weight: 600; }
+.bc-view-tab:hover { background: #f3f2f1; }
+</style>
+</head>
+<body>
+<div class="bc-page">
+
+  <!-- SHELL BAR -->
+  <div class="bc-shell-bar">
+    <span class="product-name">Dynamics 365 Business Central</span>
+    <button class="bc-shell-btn bc-shell-company">🏢</button>
+    <button class="bc-shell-btn">🔍</button>
+    <button class="bc-shell-btn">🔔</button>
+    <button class="bc-shell-btn">⚙️</button>
+    <button class="bc-shell-btn">❓</button>
+    <button class="bc-shell-btn" style="font-size:13px;font-weight:600;">AK</button>
+  </div>
+
+  <!-- PAGE CAPTION -->
+  <div class="bc-page-caption">
+    <span class="page-type">Print Quote Oferta N24</span>
+    <span class="doc-no">Oferta Oferta – OS/25/05/0001</span>
+  </div>
+
+  <div class="bc-top-icons">
+    <button class="bc-top-icon">📤</button>
+  </div>
+
+  <!-- FASTTAB: Nagłówek oferty -->
+  <div class="bc-fasttab">
+    <div class="bc-fasttab-header">
+      Nagłówek oferty
+    </div>
+    <div class="bc-card-fields">
+      <div class="field-col">
+        <div class="bc-field-row">
+          <span class="field-label">Nr</span>
+          <span class="field-dots"></span>
+          <span class="field-value">OS/25/05/0001</span>
+        </div>
+        <div class="bc-field-row">
+          <span class="field-label">Nazwa nabywcy</span>
+          <span class="field-dots"></span>
+          <span class="field-value">ABC Sp. z o.o.</span>
+        </div>
+        <div class="bc-field-row">
+          <span class="field-label">Adres</span>
+          <span class="field-dots"></span>
+          <span class="field-value">ul. Kamienna 15</span>
+        </div>
+        <div class="bc-field-row">
+          <span class="field-label">Miasto</span>
+          <span class="field-dots"></span>
+          <span class="field-value">Wrocław</span>
+        </div>
+      </div>
+      <div class="field-col">
+        <div class="bc-field-row">
+          <span class="field-label">Data dokumentu</span>
+          <span class="field-dots"></span>
+          <span class="field-value">28.05.2025</span>
+        </div>
+        <div class="bc-field-row">
+          <span class="field-label">Referencja klienta</span>
+          <span class="field-dots"></span>
+          <span class="field-value">OF-ABC-0045</span>
+        </div>
+        <div class="bc-field-row">
+          <span class="field-label">Drawing Reference <span class="new-marker">N24</span></span>
+          <span class="field-dots"></span>
+          <span class="field-value">RYS-2026-045</span>
+        </div>
+        <div class="bc-field-row">
+          <span class="field-label">Voivodeship <span class="new-marker">N24</span></span>
+          <span class="field-dots"></span>
+          <span class="field-value">dolnośląskie</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WIERSZE OFERTY (SubPageLink do Sales Quote Subform) -->
+  <div class="bc-fasttab">
+    <div class="bc-fasttab-header" style="color:#555;">
+      ▶ Wiersze oferty sprzedaży (Subform 50130)
+    </div>
+  </div>
+
+  <!-- PRINT PREVIEW TABS -->
+  <div class="bc-view-tabs">
+    <span class="bc-view-tab active">Podgląd wydruku – wersja skrócona</span>
+    <span class="bc-view-tab">Podgląd wydruku – wersja szczegółowa</span>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- PRINT PREVIEW: Wersja skrócona               -->
+  <!-- ============================================ -->
+  <div class="print-preview">
+    <div class="print-preview-header">
+      <span>Podgląd wydruku — Wersja skrócona (tylko wiersze z Print on Document = ☑)</span>
+      <button class="btn">🖨️ Drukuj</button>
+    </div>
+    <div class="print-preview-body">
+      <div class="print-doc">
+        <div class="doc-header">
+          <div>
+            <div class="company">FORMA SYSTEM Sp. z o.o.</div>
+            <div class="company-addr">ul. Przemysłowa 42, 53-234 Wrocław<br>NIP: 897-123-45-67 · tel. 71 123 45 67</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:10px;color:#555;">Dla:</div>
+            <div style="font-weight:600;">ABC Sp. z o.o.</div>
+            <div style="font-size:10px;">ul. Kamienna 15, Wrocław</div>
+          </div>
+        </div>
+
+        <div class="doc-title">OFERTA nr OS/25/05/0001</div>
+
+        <div class="doc-meta">
+          <dt>Data:</dt><dd>28.05.2025</dd>
+          <dt>Drawing Reference:</dt><dd>RYS-2026-045</dd>
+          <dt>Referencja klienta:</dt><dd>OF-ABC-0045</dd>
+          <dt>Województwo:</dt><dd>dolnośląskie</dd>
+        </div>
+
+        <table class="print-table">
+          <thead>
+            <tr>
+              <th>Lp.</th>
+              <th>Opis</th>
+              <th style="text-align:right;">Ilość</th>
+              <th>J.m.</th>
+              <th style="text-align:right;">Cena j. netto</th>
+              <th style="text-align:right;">Rabat %</th>
+              <th style="text-align:right;">Kwota netto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Blat granitowy 3000x600</td>
+              <td class="r">2</td>
+              <td>SZT</td>
+              <td class="r">3 745,00</td>
+              <td class="r">0</td>
+              <td class="r">7 490,00</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Zlew podblatowy ELLECI</td>
+              <td class="r">1</td>
+              <td>SZT</td>
+              <td class="r">1 200,00</td>
+              <td class="r">0</td>
+              <td class="r">1 200,00</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Transport dolnośląskie</td>
+              <td class="r">1</td>
+              <td>GODZ</td>
+              <td class="r">800,00</td>
+              <td class="r">0</td>
+              <td class="r">800,00</td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="6" style="text-align:right;">RAZEM netto:</td>
+              <td class="r">9 490,00</td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="6" style="text-align:right;">VAT 23%:</td>
+              <td class="r">2 182,70</td>
+            </tr>
+            <tr class="total-row" style="font-size:12px;">
+              <td colspan="6" style="text-align:right;">RAZEM brutto:</td>
+              <td class="r" style="font-size:12px;">11 672,70</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:16px;font-size:10px;color:#333;">
+          <strong>Uwagi z kalkulacji Oferta (komentarze):</strong><br>
+          • Wiersz 1 (Blat granitowy): Otwory pod baterię i dozownik
+        </div>
+
+        <div class="footer">
+          Oferta ważna 30 dni od daty wystawienia · FORMA SYSTEM Sp. z o.o. · Wygenerowano z Dynamics 365 Business Central
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- PRINT PREVIEW: Wersja szczegółowa            -->
+  <!-- ============================================ -->
+  <div class="print-preview" style="margin-top:24px;">
+    <div class="print-preview-header">
+      <span>Podgląd wydruku — Wersja szczegółowa (wszystkie pozycje Oferta z kalkulacją)</span>
+      <button class="btn">🖨️ Drukuj</button>
+    </div>
+    <div class="print-preview-body">
+      <div class="print-doc">
+        <div class="doc-header">
+          <div>
+            <div class="company">FORMA SYSTEM Sp. z o.o.</div>
+            <div class="company-addr">ul. Przemysłowa 42, 53-234 Wrocław</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-weight:600;">ABC Sp. z o.o.</div>
+          </div>
+        </div>
+
+        <div class="doc-title">OFERTA SZCZEGÓŁOWA nr OS/25/05/0001</div>
+
+        <p style="font-size:10px;margin-bottom:12px;">Wersja z rozbiciem na składniki Oferta kalkulacji</p>
+
+        <!-- Wiersz 1 z Oferta -->
+        <div style="background:#f0f7ff; padding:6px 8px; margin:8px 0 4px; font-weight:600; font-size:11px; border-left: 3px solid #0078d4;">
+          Wiersz 1: Blat granitowy 3000x600 — Cena końcowa: 3 745,00 PLN/SZT · Ilość: 2 · Kwota: 7 490,00 PLN
+        </div>
+
+        <table class="print-table" style="margin-bottom:16px;">
+          <thead>
+            <tr>
+              <th>Typ</th>
+              <th>Nr</th>
+              <th>Opis</th>
+              <th style="text-align:right;">Ilość</th>
+              <th style="text-align:right;">Cena j.</th>
+              <th style="text-align:right;">Kwota</th>
+              <th>Struktura</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Zapas</td>
+              <td>GRAN-IMPALA-30</td>
+              <td>Granit Impala 3000mm (materiał)</td>
+              <td class="r">2,50</td>
+              <td class="r">420,00</td>
+              <td class="r">1 050,00</td>
+              <td>Materiał</td>
+            </tr>
+            <tr>
+              <td>Zapas</td>
+              <td>KLEJ-GRAN-500</td>
+              <td>Klej do kamienia 500ml</td>
+              <td class="r">3,00</td>
+              <td class="r">45,00</td>
+              <td class="r">135,00</td>
+              <td>Materiał</td>
+            </tr>
+            <tr>
+              <td>Zasób</td>
+              <td>CNC-OBROB</td>
+              <td>Obróbka CNC – frezowanie</td>
+              <td class="r">1,50</td>
+              <td class="r">800,00</td>
+              <td class="r">1 200,00</td>
+              <td>Usługa</td>
+            </tr>
+            <tr>
+              <td>Zasób</td>
+              <td>POLER-STD</td>
+              <td>Polerowanie standardowe</td>
+              <td class="r">2,50</td>
+              <td class="r">200,00</td>
+              <td class="r">500,00</td>
+              <td>Usługa</td>
+            </tr>
+            <tr>
+              <td>Komentarz</td>
+              <td></td>
+              <td colspan="4"><em>Otwory pod baterię i dozownik</em></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Konto K/G</td>
+              <td>501-0100</td>
+              <td>Marża – narzut ogólny</td>
+              <td class="r">1,00</td>
+              <td class="r">860,00</td>
+              <td class="r">860,00</td>
+              <td>Marża</td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="5" style="text-align:right;">Suma Oferta:</td>
+              <td class="r">3 745,00</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Wiersz 2 bez Oferta -->
+        <div style="background:#f5f5f5; padding:6px 8px; margin:8px 0 4px; font-size:11px; border-left: 3px solid #c8c6c4;">
+          Wiersz 2: Zlew podblatowy ELLECI — 1 200,00 PLN (bez kalkulacji Oferta)
+        </div>
+
+        <!-- Wiersz 3 bez Oferta -->
+        <div style="background:#f5f5f5; padding:6px 8px; margin:8px 0 4px; font-size:11px; border-left: 3px solid #c8c6c4;">
+          Wiersz 3: Transport dolnośląskie — 800,00 PLN (bez kalkulacji Oferta)
+        </div>
+
+        <table class="print-table" style="margin-top:16px;">
+          <tbody>
+            <tr class="total-row" style="font-size:12px;">
+              <td style="text-align:right;">RAZEM netto oferta:</td>
+              <td class="r" style="width:120px; font-size:12px;">9 490,00 PLN</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="footer">
+          Oferta szczegółowa — dokument wewnętrzny z kalkulacją Oferta · FORMA SYSTEM Sp. z o.o.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="bc-status-bar">
+    <span>Print Quote Oferta N24 · Strona 50225 (Card) · Źródło: Sales Header (Oferta) + SubPageLink do Sales Quote Subform</span>
+    <span>Wydruk skrócony = dla klienta · Wydruk szczegółowy = wewnętrzny z rozbiciem Oferta</span>
+  </div>
+
+</div>
+</body>
+</html>

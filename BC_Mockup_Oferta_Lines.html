@@ -1,0 +1,306 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wiersze oferty - BC Mockup</title>
+<style>
+/* ===== BC GLOBAL ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 13px; color: #333; background: #f3f2f1; }
+
+/* ===== DIMMED BACKGROUND (Sales Quote behind) ===== */
+.bc-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.4);
+  z-index: 100;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding-top: 60px;
+}
+
+/* ===== POPUP WINDOW ===== */
+.bc-popup {
+  background: #fff;
+  width: 860px; max-width: 95vw;
+  min-height: 520px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.28), 0 0 0 1px rgba(0,0,0,.08);
+  display: flex; flex-direction: column;
+  z-index: 200;
+  border-radius: 0;
+}
+
+/* ===== POPUP HEADER ===== */
+.popup-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px 8px;
+  border-bottom: 1px solid #edebe9;
+}
+.popup-title {
+  font-size: 18px; font-weight: 600; color: #000;
+}
+.popup-header-actions {
+  display: flex; gap: 4px; align-items: center;
+}
+.popup-header-btn {
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  background: transparent; border: none; cursor: pointer; font-size: 16px; color: #605e5c;
+  border-radius: 2px;
+}
+.popup-header-btn:hover { background: #f3f2f1; }
+.popup-header-btn.close:hover { background: #e81123; color: #fff; }
+
+/* ===== TOOLBAR ===== */
+.popup-toolbar {
+  display: flex; align-items: center; gap: 0;
+  padding: 2px 12px;
+  border-bottom: 1px solid #edebe9;
+  flex-wrap: wrap;
+}
+.toolbar-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 6px 12px; font-size: 13px; color: #333; background: transparent;
+  border: none; cursor: pointer; white-space: nowrap;
+  height: 36px;
+}
+.toolbar-btn:hover { background: #f3f2f1; }
+.toolbar-btn .icon { font-size: 14px; }
+.toolbar-btn.active {
+  background: #e6f2fb; border-bottom: 2px solid #0078d4; color: #0078d4; font-weight: 600;
+}
+.toolbar-btn.has-arrow::after { content: ' ▾'; font-size: 10px; color: #605e5c; }
+.toolbar-sep { border-left: 1px solid #c8c6c4; margin: 0 2px; height: 20px; align-self: center; }
+.toolbar-right {
+  margin-left: auto; display: flex; align-items: center; gap: 2px;
+}
+.toolbar-icon-btn {
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  background: transparent; border: none; cursor: pointer; font-size: 14px; color: #605e5c;
+}
+.toolbar-icon-btn:hover { background: #f3f2f1; }
+
+/* ===== GRID ===== */
+.bc-grid-container {
+  flex: 1; overflow: auto; padding: 0;
+}
+.bc-grid { width: 100%; border-collapse: collapse; font-size: 12px; }
+.bc-grid thead th {
+  padding: 6px 10px; text-align: left; font-weight: 400; color: #333; font-size: 12px;
+  white-space: nowrap; border-bottom: 1px solid #edebe9; background: #fff;
+  vertical-align: bottom; position: sticky; top: 0; z-index: 1;
+}
+.bc-grid thead th.num { text-align: right; }
+.bc-grid tbody td {
+  padding: 5px 10px; border-bottom: 1px solid #edebe9; white-space: nowrap;
+  vertical-align: middle; height: 32px;
+}
+.bc-grid tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.bc-grid tbody tr:hover { background: #f3f2f1; }
+.bc-grid tbody tr.selected { background: #e6f2fb; }
+.bc-grid tbody tr .row-indicator {
+  width: 20px; text-align: center; color: #0078d4; font-size: 12px;
+}
+.bc-grid .editable-cell {
+  border: 1px solid #8a8886; padding: 2px 8px; min-width: 80px; height: 24px;
+  display: inline-block; background: #fff; font-size: 12px;
+}
+.bc-grid .cell-with-menu {
+  position: relative;
+}
+.bc-grid .cell-menu-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 24px; background: transparent; border: 1px solid #8a8886;
+  border-left: none; cursor: pointer; color: #0078d4; font-size: 14px;
+  vertical-align: top;
+}
+.bc-grid .cell-menu-btn:hover { background: #f3f2f1; }
+
+/* ===== EMPTY ROWS ===== */
+.bc-grid tbody tr.empty td {
+  border-bottom: 1px solid #f3f2f1; height: 32px;
+}
+
+/* ===== SCROLLBAR ===== */
+.bc-grid-container::-webkit-scrollbar { width: 12px; height: 12px; }
+.bc-grid-container::-webkit-scrollbar-thumb { background: #c8c6c4; border: 3px solid #fff; border-radius: 6px; }
+.bc-grid-container::-webkit-scrollbar-thumb:hover { background: #a19f9d; }
+
+/* ===== STATUS BAR (mockup annotation) ===== */
+.bc-status-bar {
+  height: 20px; background: #f3f2f1; border-top: 1px solid #e0e0e0;
+  font-size: 10px; color: #605e5c; padding: 2px 12px;
+  display: flex; justify-content: space-between; align-items: center;
+  position: fixed; bottom: 0; left: 0; right: 0;
+}
+
+/* ===== DROPDOWN MENU ===== */
+.dropdown-wrapper {
+  position: relative; display: inline-flex;
+}
+.dropdown-menu {
+  position: absolute; top: 100%; left: 0;
+  background: #fff; min-width: 260px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.18), 0 0 0 1px rgba(0,0,0,.05);
+  z-index: 500; padding: 4px 0;
+  display: none;
+}
+.dropdown-wrapper.open .dropdown-menu {
+  display: block;
+}
+.dropdown-menu .menu-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 16px; font-size: 13px; color: #333;
+  cursor: pointer; white-space: nowrap;
+  background: transparent; border: none; width: 100%; text-align: left;
+}
+.dropdown-menu .menu-item:hover { background: #f3f2f1; }
+.dropdown-menu .menu-item .menu-icon {
+  width: 20px; text-align: center; font-size: 14px; color: #0078d4; flex-shrink: 0;
+}
+
+/* Hint behind popup */
+.bc-behind-hint {
+  position: fixed; top: 10px; left: 10px; font-size: 11px; color: #fff;
+  background: rgba(0,0,0,.5); padding: 4px 10px; border-radius: 3px; z-index: 50;
+}
+</style>
+</head>
+<body>
+
+<!-- Hint: Sales Quote is behind -->
+<div class="bc-behind-hint">← Oferta sprzedaży (strona za oknem Wiersze oferty)</div>
+
+<!-- Overlay -->
+<div class="bc-overlay">
+
+  <!-- POPUP -->
+  <div class="bc-popup">
+
+    <!-- HEADER -->
+    <div class="popup-header">
+      <span class="popup-title">Wiersze oferty - Settlement</span>
+      <div class="popup-header-actions">
+        <button class="popup-header-btn" title="Maksymalizuj">↗</button>
+        <button class="popup-header-btn close" title="Zamknij">✕</button>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="popup-toolbar">
+      <button class="toolbar-btn"><span class="icon">🔍</span></button>
+      <button class="toolbar-btn"><span class="icon">＋</span> Nowy</button>
+      <button class="toolbar-btn active"><span class="icon">📋</span> Edytuj listę</button>
+      <button class="toolbar-btn"><span class="icon">🗑️</span> Usuń</button>
+      <div class="dropdown-wrapper">
+        <button class="toolbar-btn has-arrow" style="color:#0078d4;">Akcje</button>
+        <div class="dropdown-menu">
+          <button class="menu-item"><span class="menu-icon">📄</span> Wzory oferty</button>
+          <button class="menu-item"><span class="menu-icon">📋</span> Zastosuj wzór</button>
+          <button class="menu-item"><span class="menu-icon">🔄</span> Przelicz</button>
+          <button class="menu-item"><span class="menu-icon">📜</span> Historia zmian</button>
+          <button class="menu-item"><span class="menu-icon">📝</span> Dodaj do oferty jako komentarz</button>
+        </div>
+      </div>
+      <button class="toolbar-btn">Mniej opcji</button>
+      <div class="toolbar-right">
+        <button class="toolbar-icon-btn" title="Udostępnij">📤</button>
+        <button class="toolbar-icon-btn" title="Więcej">☰</button>
+      </div>
+    </div>
+
+    <!-- GRID -->
+    <div class="bc-grid-container">
+      <table class="bc-grid">
+        <thead>
+          <tr>
+            <th style="width:24px;"></th>
+            <th>Type</th>
+            <th>No.</th>
+            <th>Description</th>
+            <th class="num">Quantity</th>
+            <th class="num">Unit Price</th>
+            <th class="num">Line Discount %</th>
+            <th class="num">Line Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Row 1: selected -->
+          <tr class="selected">
+            <td class="row-indicator">→</td>
+            <td><span class="editable-cell">Item</span></td>
+            <td class="cell-with-menu">
+              <span class="editable-cell" style="color:#0078d4;">P-000001</span><button class="cell-menu-btn" title="Menu">⋮</button>
+            </td>
+            <td>Płyta Absolut Black Granit anty...</td>
+            <td class="num">2</td>
+            <td class="num">20,00</td>
+            <td class="num">0</td>
+            <td class="num">40,00</td>
+          </tr>
+          <!-- Row 2 -->
+          <tr>
+            <td class="row-indicator"></td>
+            <td><span class="editable-cell">Item</span></td>
+            <td class="cell-with-menu">
+              <span class="editable-cell" style="color:#0078d4;">P-000002</span><button class="cell-menu-btn">⋮</button>
+            </td>
+            <td>Płyta Absolut Black Granit anty...</td>
+            <td class="num">3</td>
+            <td class="num">45,00</td>
+            <td class="num">0</td>
+            <td class="num">135,00</td>
+          </tr>
+          <!-- Row 3 -->
+          <tr>
+            <td class="row-indicator"></td>
+            <td><span class="editable-cell">G/L Account</span></td>
+            <td class="cell-with-menu">
+              <span class="editable-cell" style="color:#0078d4;">469</span><button class="cell-menu-btn">⋮</button>
+            </td>
+            <td>Pozostałe koszty</td>
+            <td class="num">1</td>
+            <td class="num">100,00</td>
+            <td class="num">0</td>
+            <td class="num">100,00</td>
+          </tr>
+          <!-- Empty rows -->
+          <tr class="empty"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="empty"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="empty"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="empty"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="empty"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="empty"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="empty"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="empty"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="empty"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="empty"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Horizontal scrollbar area -->
+    <div style="height: 16px; border-top: 1px solid #edebe9; background: #f9f9f9;"></div>
+
+  </div>
+</div>
+
+<script>
+  document.querySelector('.dropdown-wrapper > .toolbar-btn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    this.parentElement.classList.toggle('open');
+  });
+  document.addEventListener('click', function() {
+    document.querySelector('.dropdown-wrapper').classList.remove('open');
+  });
+  document.querySelector('.dropdown-menu').addEventListener('click', function(e) {
+    e.stopPropagation();
+  });
+</script>
+
+<!-- STATUS BAR -->
+<div class="bc-status-bar">
+  <span>Wiersze oferty · Strona 50210 (List) · Otwiera się jako popup z wiersza oferty sprzedaży</span>
+  <span>Toolbar: + Nowy | Edytuj listę | Usuń | Akcje ▼ (Wzory oferty, Zastosuj wzór, Przelicz, Historia zmian, Dodaj do oferty jako komentarz)</span>
+</div>
+
+</body>
+</html>

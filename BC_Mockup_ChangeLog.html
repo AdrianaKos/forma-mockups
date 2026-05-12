@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Historia zmian kalkulacji - BC Mockup</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', 'Segoe WPC', system-ui, sans-serif; font-size: 13px; color: #333; background: #fff; }
+
+.bc-shell-bar { background: #282828; color: #fff; height: 48px; width: 100%; display: flex; align-items: center; font-size: 16px; }
+.bc-shell-bar .product-name { font-weight: 600; margin-left: 15px; margin-right: auto; }
+.bc-shell-btn { display: flex; height: 48px; width: 48px; min-width: 48px; align-items: center; justify-content: center; background: transparent; border: 1px solid #282828; color: #fff; cursor: pointer; font-size: 16px; }
+.bc-shell-btn:hover { background: #000; }
+.bc-shell-company { padding: 0 7px; font-size: 13px; }
+
+.bc-page-caption { padding: 4px 12px 0; }
+.bc-page-caption .page-type { font-size: 12px; color: #555; }
+.bc-page-caption .doc-no { font-size: 22px; font-weight: 400; color: #000; display: block; line-height: 1.3; }
+
+.bc-menu-bar { display: flex; border-bottom: 1px solid #e0e0e0; padding: 0 12px; font-size: 13px; flex-wrap: wrap; }
+.bc-menu-tab { padding: 6px 12px; color: #0078d4; text-decoration: underline; cursor: pointer; white-space: nowrap; }
+.bc-menu-tab.active { font-weight: 600; }
+
+.bc-grid { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 4px; }
+.bc-grid thead th { padding: 5px 8px; text-align: left; font-weight: 400; color: #333; font-size: 12px; white-space: nowrap; border-bottom: 1px solid #edebe9; vertical-align: bottom; }
+.bc-grid thead th.num { text-align: right; }
+.bc-grid tbody td { padding: 4px 8px; border-bottom: 1px solid #edebe9; white-space: nowrap; vertical-align: middle; height: 28px; }
+.bc-grid tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.bc-grid tbody tr:hover { background: #f3f2f1; }
+.bc-grid tbody tr.selected { background: #e6f2fb; }
+.bc-grid tbody td.changed { color: #d13438; font-weight: 600; }
+.bc-grid tbody td.old-val { color: #605e5c; text-decoration: line-through; }
+
+.bc-page { position: relative; min-height: 100vh; padding-bottom: 24px; }
+.bc-top-icons { display: flex; gap: 4px; position: absolute; top: 56px; right: 12px; }
+.bc-top-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; font-size: 16px; color: #0078d4; background: transparent; border: none; }
+.bc-top-icon:hover { background: #f3f2f1; }
+
+.bc-status-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 20px; background: #f3f2f1; border-top: 1px solid #e0e0e0; font-size: 10px; color: #605e5c; padding: 2px 12px; display: flex; justify-content: space-between; align-items: center; }
+
+.bc-filter-bar { display: flex; gap: 8px; padding: 6px 12px; border-bottom: 1px solid #edebe9; font-size: 12px; }
+.filter-chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: #e6f2fb; border: 1px solid #0078d4; border-radius: 3px; font-size: 11px; color: #0078d4; }
+.filter-chip .remove { cursor: pointer; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="bc-page">
+
+  <!-- SHELL BAR -->
+  <div class="bc-shell-bar">
+    <span class="product-name">Dynamics 365 Business Central</span>
+    <button class="bc-shell-btn bc-shell-company">🏢</button>
+    <button class="bc-shell-btn">🔍</button>
+    <button class="bc-shell-btn">🔔</button>
+    <button class="bc-shell-btn">⚙️</button>
+    <button class="bc-shell-btn">❓</button>
+    <button class="bc-shell-btn" style="font-size:13px;font-weight:600;">AK</button>
+  </div>
+
+  <!-- PAGE CAPTION -->
+  <div class="bc-page-caption">
+    <span class="page-type">Calc Change Log N24</span>
+    <span class="doc-no">Historia zmian kalkulacji</span>
+  </div>
+
+  <div class="bc-top-icons">
+    <button class="bc-top-icon">📤</button>
+  </div>
+
+  <!-- INFO: Read-only -->
+  <div style="padding: 4px 12px; font-size: 11px; color: #605e5c; border-bottom: 1px solid #edebe9;">
+    🔒 Tylko do odczytu — strona nieedytowalna
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="bc-filter-bar">
+    <span style="color:#605e5c;">Filtr:</span>
+    <span class="filter-chip">Quote No. = OS/25/05/0001 <span class="remove">×</span></span>
+  </div>
+
+  <!-- GRID -->
+  <div style="overflow-x: auto; padding: 0 12px;">
+    <table class="bc-grid">
+      <thead>
+        <tr>
+          <th style="width:20px;"></th>
+          <th>Nr oferty</th>
+          <th class="num">Nr wiersza<br>sprzedaży</th>
+          <th class="num">Nr wiersza<br>Oferta</th>
+          <th>Nazwa pola</th>
+          <th>Stara wartość</th>
+          <th>Nowa wartość</th>
+          <th>Zmienione przez</th>
+          <th>Data zmiany</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="selected">
+          <td style="text-align:center;color:#0078d4;font-size:11px;">→</td>
+          <td>OS/25/05/0001</td>
+          <td class="num">10000</td>
+          <td class="num">10000</td>
+          <td>Unit Price</td>
+          <td class="old-val">380,00</td>
+          <td class="changed">420,00</td>
+          <td>ADMIN</td>
+          <td>28.05.2025 14:32</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>OS/25/05/0001</td>
+          <td class="num">10000</td>
+          <td class="num">20000</td>
+          <td>Quantity</td>
+          <td class="old-val">2,00</td>
+          <td class="changed">3,00</td>
+          <td>ADMIN</td>
+          <td>28.05.2025 14:31</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>OS/25/05/0001</td>
+          <td class="num">10000</td>
+          <td class="num">30000</td>
+          <td>Line Discount %</td>
+          <td class="old-val">0</td>
+          <td class="changed">5</td>
+          <td>ADMIN</td>
+          <td>28.05.2025 14:30</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>OS/25/05/0001</td>
+          <td class="num">10000</td>
+          <td class="num">10000</td>
+          <td>Description</td>
+          <td class="old-val">Granit Impala 2500mm</td>
+          <td class="changed">Granit Impala 3000mm (materiał)</td>
+          <td>ADMIN</td>
+          <td>28.05.2025 14:28</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>OS/25/05/0001</td>
+          <td class="num">10000</td>
+          <td class="num">50000</td>
+          <td>No.</td>
+          <td class="old-val"></td>
+          <td class="changed">501-0100</td>
+          <td>ADMIN</td>
+          <td>28.05.2025 14:25</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>OS/25/05/0001</td>
+          <td class="num">20000</td>
+          <td class="num">10000</td>
+          <td>Unit Price</td>
+          <td class="old-val">1 100,00</td>
+          <td class="changed">1 200,00</td>
+          <td>KOWALSKI</td>
+          <td>27.05.2025 09:15</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="bc-status-bar">
+    <span>Calc Change Log N24 · Strona 50201 · Źródło: Tabela 50201 (N24 Calc Change Log)</span>
+    <span>Audyt: każda zmiana wartości pola w linii Oferta jest rejestrowana automatycznie</span>
+  </div>
+
+</div>
+</body>
+</html>
