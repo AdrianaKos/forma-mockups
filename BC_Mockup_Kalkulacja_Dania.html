@@ -134,8 +134,9 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
   <button class="view-btn" onclick="window.location='BC_Mockup_Kalkulacja_PL_Cennikowe.html'">🇵🇱 Wycena Polska – cennikowe</button>
   <button class="view-btn" onclick="window.location='BC_Mockup_Kalkulacja_PL_Niecennikowe.html'">🇵🇱 Wycena Polska – niecennikowe</button>
   <div class="view-sep"></div>
-  <button class="view-btn action">📤 Przenieś do oferty</button>
-  <button class="view-btn">📜 Historia zmian</button>
+  <button class="view-btn action">� Aktualizuj cenę na ofercie</button>
+  <button class="view-btn">📋 Przenieś wiersze jako komentarz</button>
+  <button class="view-btn">📜 Change Log</button>
   <div class="view-bar-right">
     <button class="view-bar-icon" title="Udostępnij">📤</button>
     <button class="view-bar-icon" title="Więcej">⋯</button>
@@ -215,6 +216,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <th class="num">Wart. rabatu</th>
           <th class="num">Cena końcowa (EUR)</th>
           <th class="center">Komentarz</th>
+          <th class="center">Pokaż na ofercie</th>
         </tr>
       </thead>
       <tbody>
@@ -237,6 +239,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <td class="num">—</td>
           <td class="num"><strong>756,00</strong></td>
           <td class="center">☐</td>
+          <td class="center">☑</td>
         </tr>
         <!-- Row 2: Add. Profile -->
         <tr>
@@ -257,6 +260,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <td class="num">—</td>
           <td class="num"><strong>60,00</strong></td>
           <td class="center">☐</td>
+          <td class="center">☑</td>
         </tr>
         <!-- Row 3: Sink Hole -->
         <tr>
@@ -277,6 +281,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <td class="num">—</td>
           <td class="num"><strong>85,00</strong></td>
           <td class="center">☐</td>
+          <td class="center">☑</td>
         </tr>
         <!-- Row 4: Cooker Hole -->
         <tr>
@@ -297,6 +302,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <td class="num">—</td>
           <td class="num"><strong>65,00</strong></td>
           <td class="center">☐</td>
+          <td class="center">☑</td>
         </tr>
         <!-- Row 5: Hole strengthening -->
         <tr>
@@ -317,6 +323,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <td class="num">—</td>
           <td class="num"><strong>40,00</strong></td>
           <td class="center">☐</td>
+          <td class="center">☑</td>
         </tr>
         <!-- Row 6: Transport -->
         <tr>
@@ -337,6 +344,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <td class="num">20,00</td>
           <td class="num"><strong>230,00</strong></td>
           <td class="center">☐</td>
+          <td class="center">☑</td>
         </tr>
 
         <!-- New empty row (editing) -->
@@ -344,11 +352,11 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <td class="row-ind">*</td>
           <td><span class="cell-dd">Wybierz typ...</span></td>
           <td></td><td></td><td></td><td></td><td></td>
-          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
         </tr>
-        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       </tbody>
     </table>
   </div>
