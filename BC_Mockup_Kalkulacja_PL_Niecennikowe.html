@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalkulacja wierszy oferty – Wycena Polska – niecennikowe</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #333; background: #f3f2f1; -webkit-font-smoothing: antialiased; }
+
+.bc-shell { background: #282828; color: #fff; height: 48px; display: flex; align-items: center; position: sticky; top: 0; z-index: 100; }
+.bc-shell .brand { font-weight: 600; font-size: 16px; padding: 0 16px; flex: 1; }
+.bc-shell-btn { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: transparent; border: none; color: #fff; cursor: pointer; font-size: 16px; }
+.bc-shell-btn:hover { background: #000; }
+.bc-shell-btn.user { font-size: 13px; font-weight: 700; }
+
+.bc-breadcrumb { background: #fff; padding: 4px 16px; font-size: 12px; border-bottom: 1px solid #edebe9; }
+.bc-page-header { background: #fff; padding: 8px 16px 0; border-bottom: 1px solid #edebe9; display: flex; align-items: flex-end; justify-content: space-between; }
+.bc-page-header .page-title { font-size: 22px; font-weight: 400; color: #000; }
+.bc-page-header .saved { font-size: 12px; color: #605e5c; display: flex; align-items: center; gap: 4px; }
+.bc-page-header .saved::before { content: '✓'; color: #107c10; }
+
+.bc-view-bar { background: #fff; border-bottom: 2px solid #edebe9; display: flex; align-items: center; padding: 0 16px; gap: 0; flex-wrap: wrap; }
+.view-btn { padding: 10px 16px; font-size: 13px; background: transparent; border: none; cursor: pointer; color: #333; white-space: nowrap; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+.view-btn:hover { background: #f3f2f1; color: #0078d4; }
+.view-btn.active { color: #0078d4; font-weight: 600; border-bottom-color: #0078d4; background: #e6f2fb; }
+.view-sep { border-left: 1px solid #c8c6c4; height: 20px; align-self: center; margin: 0 8px; }
+.view-btn.action { color: #0078d4; font-weight: 600; }
+.view-bar-right { margin-left: auto; }
+
+.bc-fasttab { background: #fff; border-bottom: 1px solid #edebe9; }
+.bc-fasttab-header { padding: 8px 16px 6px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.bc-fasttab-header .chevron { color: #605e5c; font-size: 11px; }
+.bc-fasttab-body { padding: 4px 16px 12px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0 40px; }
+.field-row { display: flex; align-items: baseline; padding: 2px 0; min-height: 26px; }
+.field-label { font-size: 12px; color: #605e5c; white-space: nowrap; flex-shrink: 0; min-width: 130px; }
+.field-dots { flex: 1; border-bottom: 1px dotted #c8c6c4; margin: 0 4px; min-width: 8px; }
+.field-value { font-size: 13px; color: #000; }
+.field-value.link { color: #0078d4; cursor: pointer; }
+.field-value.bold { font-weight: 600; }
+.field-value.green { color: #107c10; font-weight: 600; }
+.badge { display: inline-block; background: #deecf9; color: #0078d4; font-size: 11px; padding: 1px 6px; border-radius: 2px; font-weight: 600; }
+
+/* SECTION DIVIDER */
+.section-hdr { background: #faf9f8; border-top: 2px solid #edebe9; border-bottom: 1px solid #edebe9; padding: 5px 16px; font-size: 12px; font-weight: 600; color: #444; display: flex; align-items: center; justify-content: space-between; }
+.section-hdr .sub-actions { display: flex; gap: 4px; }
+.sec-btn { padding: 2px 8px; font-size: 11px; background: transparent; border: none; cursor: pointer; color: #0078d4; border-radius: 2px; }
+.sec-btn:hover { background: #e6f2fb; }
+
+/* GRID */
+.bc-grid-wrap { overflow-x: auto; background: #fff; }
+.bc-grid { width: 100%; border-collapse: collapse; font-size: 12px; }
+.bc-grid thead th { padding: 5px 8px; text-align: left; font-weight: 400; color: #333; font-size: 11px; white-space: nowrap; border-bottom: 2px solid #edebe9; background: #faf9f8; vertical-align: bottom; }
+.bc-grid thead th.num { text-align: right; }
+.bc-grid thead th.center { text-align: center; }
+.bc-grid tbody td { padding: 4px 8px; border-bottom: 1px solid #f3f2f1; white-space: nowrap; vertical-align: middle; height: 30px; }
+.bc-grid tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.bc-grid tbody tr:hover { background: #f8f8f7; }
+.bc-grid tbody tr.selected { background: #e6f2fb; }
+.row-ind { width: 18px; text-align: center; color: #0078d4; font-size: 11px; }
+.cell-link { color: #0078d4; cursor: pointer; }
+.cell-dd { border: 1px solid #8a8886; padding: 1px 4px 1px 6px; height: 22px; display: inline-flex; align-items: center; background: #fff; min-width: 140px; font-size: 12px; cursor: pointer; }
+.cell-dd::after { content: ' ▾'; font-size: 10px; color: #0078d4; margin-left: auto; }
+.empty-row td { border-bottom: 1px solid #f3f2f1; height: 30px; }
+.pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.pill.mat { background: #e8f4fd; color: #0078d4; }
+.pill.proc { background: #fdf2f2; color: #d13438; }
+.pill.mount { background: #e8f5e9; color: #107c10; }
+.pill.trans { background: #fff4ce; color: #835c00; }
+.chk { text-align: center; }
+
+/* LAYOUT: grid + summary side by side */
+.main-content { display: flex; gap: 0; align-items: flex-start; }
+.grid-area { flex: 1; min-width: 0; }
+.summary-area { width: 320px; flex-shrink: 0; border-left: 2px solid #edebe9; background: #fff; padding: 16px; }
+.summary-area h3 { font-size: 13px; font-weight: 600; margin-bottom: 12px; color: #444; border-bottom: 1px solid #edebe9; padding-bottom: 6px; }
+.sum-row { display: flex; align-items: baseline; margin-bottom: 6px; }
+.sum-label { font-size: 12px; color: #605e5c; flex: 1; }
+.sum-value { font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; min-width: 90px; }
+.sum-value.total { font-weight: 700; font-size: 15px; color: #0078d4; }
+.sum-value.bold { font-weight: 600; }
+.sum-sep { border-top: 1px solid #edebe9; margin: 8px 0; }
+.sum-field { margin-top: 10px; }
+.sum-field label { font-size: 11px; color: #605e5c; display: block; margin-bottom: 2px; }
+.sum-field select, .sum-field input { width: 100%; border: 1px solid #8a8886; padding: 3px 6px; font-size: 12px; font-family: inherit; height: 24px; }
+
+.info-note { background: #fffbe6; border-left: 3px solid #ffd700; padding: 6px 12px; margin: 4px 16px; font-size: 11px; color: #5a4800; }
+
+.bc-status { position: fixed; bottom: 0; left: 0; right: 0; height: 20px; background: #f3f2f1; border-top: 1px solid #e0e0e0; font-size: 10px; color: #605e5c; padding: 2px 16px; display: flex; justify-content: space-between; align-items: center; z-index: 200; }
+</style>
+</head>
+<body>
+
+<!-- SHELL BAR -->
+<div class="bc-shell">
+  <div class="brand">Dynamics 365 Business Central</div>
+  <button class="bc-shell-btn">🏢</button>
+  <button class="bc-shell-btn">🔍</button>
+  <button class="bc-shell-btn">🔔</button>
+  <button class="bc-shell-btn">⚙️</button>
+  <button class="bc-shell-btn">❓</button>
+  <button class="bc-shell-btn user">AK</button>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="bc-breadcrumb">
+  <a href="#" style="color:#0078d4;text-decoration:none;">Oferty sprzedaży</a> ›
+  <a href="#" style="color:#0078d4;text-decoration:none;">OS/25/07/0024</a> ›
+  Kalkulacja wierszy oferty
+</div>
+
+<!-- PAGE HEADER -->
+<div class="bc-page-header">
+  <div class="page-title">Kalkulacja wierszy oferty</div>
+  <div class="saved">Zapisano</div>
+</div>
+
+<!-- VIEW SWITCHER -->
+<div class="bc-view-bar">
+  <button class="view-btn" onclick="window.location='BC_Mockup_Kalkulacja_Dania.html'">🇩🇰 Wycena Dania</button>
+  <button class="view-btn" onclick="window.location='BC_Mockup_Kalkulacja_PL_Cennikowe.html'">🇵🇱 Wycena Polska – cennikowe</button>
+  <button class="view-btn active">🇵🇱 Wycena Polska – niecennikowe</button>
+  <div class="view-sep"></div>
+  <button class="view-btn action">📤 Przenieś do oferty</button>
+  <button class="view-btn">📜 Historia zmian</button>
+  <div class="view-bar-right">
+    <button style="border:none;background:transparent;cursor:pointer;padding:6px 8px;font-size:14px;color:#605e5c;">⋯</button>
+  </div>
+</div>
+
+<!-- LINKED QUOTE FASTTAB -->
+<div class="bc-fasttab">
+  <div class="bc-fasttab-header"><span class="chevron">▼</span> Powiązana oferta sprzedaży</div>
+  <div class="bc-fasttab-body">
+    <div>
+      <div class="field-row"><span class="field-label">Nr oferty</span><span class="field-dots"></span><span class="field-value link bold">OS/25/07/0024</span></div>
+      <div class="field-row"><span class="field-label">Nabywca</span><span class="field-dots"></span><span class="field-value">Agencja Remontowa Kowalski</span></div>
+      <div class="field-row"><span class="field-label">Waluta</span><span class="field-dots"></span><span class="field-value"><span class="badge">PLN</span></span></div>
+    </div>
+    <div>
+      <div class="field-row"><span class="field-label">Nr wiersza</span><span class="field-dots"></span><span class="field-value">10000</span></div>
+      <div class="field-row"><span class="field-label">Nr zapasu</span><span class="field-dots"></span><span class="field-value link">DEKT-AURA22-320x144</span></div>
+      <div class="field-row"><span class="field-label">Opis</span><span class="field-dots"></span><span class="field-value">DEKTON Aura 22 kC 20mm 320×144</span></div>
+    </div>
+    <div>
+      <div class="field-row"><span class="field-label">Cena wiersza oferty</span><span class="field-dots"></span><span class="field-value bold">—</span></div>
+      <div class="field-row"><span class="field-label">Typ zapasu</span><span class="field-dots"></span><span class="field-value" style="color:#d13438;font-weight:600;">Niecennikowy</span></div>
+      <div class="field-row"><span class="field-label">Data modyfikacji</span><span class="field-dots"></span><span class="field-value">24.07.2026</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="info-note">
+  <strong>Widok: Wycena Polska – niecennikowe</strong> – klient płaci za całą płytę, łącznie z odpadem produkcyjnym.
+  Cena materiału obliczana dla pełnej powierzchni płyty (dług. × szer.).
+</div>
+
+<div class="main-content">
+  <div class="grid-area">
+
+    <!-- SECTION: Materiały -->
+    <div class="section-hdr">
+      <span>📦 Materiały (zapasy niecennikowe)</span>
+      <div class="sub-actions">
+        <button class="sec-btn">➕ Dodaj wiersz</button>
+        <button class="sec-btn">🗑️ Usuń</button>
+      </div>
+    </div>
+    <div class="bc-grid-wrap">
+      <table class="bc-grid" style="min-width:900px;">
+        <thead>
+          <tr>
+            <th style="width:18px;"></th>
+            <th>Typ</th>
+            <th>Dostawca</th>
+            <th>Kolor / Nr zapasu</th>
+            <th class="num">Grubość (mm)</th>
+            <th>Rozmiar</th>
+            <th>Wykończenie</th>
+            <th class="num">Pow. płyty (m²)</th>
+            <th class="num">Ilość (szt.)</th>
+            <th class="num">Cena netto (PLN)</th>
+            <th class="num">Wartość netto</th>
+            <th class="center">Pokaż na ofercie</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="selected">
+            <td class="row-ind">→</td>
+            <td><span class="pill mat">Materiał</span></td>
+            <td>DEKTON</td>
+            <td><span class="cell-link">Aura 22 kC</span></td>
+            <td class="num">20</td>
+            <td>320 × 144 cm</td>
+            <td>Mat</td>
+            <td class="num">4,61</td>
+            <td class="num">1</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+            <td class="center">☑</td>
+          </tr>
+          <tr>
+            <td class="row-ind">*</td>
+            <td><span class="cell-dd">Wybierz typ...</span></td>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION: Obróbki -->
+    <div class="section-hdr">
+      <span>⚙️ Obróbki i usługi</span>
+      <div class="sub-actions">
+        <button class="sec-btn">➕ Dodaj wiersz</button>
+        <button class="sec-btn">🗑️ Usuń</button>
+      </div>
+    </div>
+    <div class="bc-grid-wrap">
+      <table class="bc-grid" style="min-width:800px;">
+        <thead>
+          <tr>
+            <th style="width:18px;"></th>
+            <th>Typ obróbki</th>
+            <th>Nr zasobu</th>
+            <th>Opis</th>
+            <th class="num">Ilość</th>
+            <th class="num">Cena netto (PLN)</th>
+            <th class="num">Wartość netto</th>
+            <th>Uwagi</th>
+            <th class="center">Pokaż na ofercie</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="selected">
+            <td class="row-ind">→</td>
+            <td><span class="pill proc">CP1</span></td>
+            <td><span class="cell-link">OBR-CP1</span></td>
+            <td>Przednia krawędź polerowana</td>
+            <td class="num">1</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+            <td></td>
+            <td class="center">☑</td>
+          </tr>
+          <tr>
+            <td class="row-ind"></td>
+            <td><span class="pill proc">CU5</span></td>
+            <td><span class="cell-link">OBR-CU5</span></td>
+            <td>Wycięcie pod zlew (kopertowe)</td>
+            <td class="num">2</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+            <td></td>
+            <td class="center">☑</td>
+          </tr>
+          <tr>
+            <td class="row-ind"></td>
+            <td><span class="pill proc">CS11</span></td>
+            <td><span class="cell-link">OBR-CS11</span></td>
+            <td>Cokół standardowy 11cm</td>
+            <td class="num">2</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+            <td></td>
+            <td class="center">☑</td>
+          </tr>
+          <tr>
+            <td class="row-ind"></td>
+            <td><span class="pill proc">FORMA-INT</span></td>
+            <td><span class="cell-link">OBR-INT-DEN</span></td>
+            <td>FORMA-INTEGRA CERAMIKA – kopertowe dno</td>
+            <td class="num">1</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+            <td>Ceramika na zamówienie</td>
+            <td class="center">☑</td>
+          </tr>
+          <tr>
+            <td class="row-ind"></td>
+            <td><span class="pill mount">Montaż</span></td>
+            <td><span class="cell-link">MONTAZ-SL</span></td>
+            <td>Montaż – Śląskie</td>
+            <td class="num">1</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+            <td></td>
+            <td class="center">☑</td>
+          </tr>
+          <tr>
+            <td class="row-ind">*</td>
+            <td><span class="cell-dd">Wybierz typ...</span></td>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /grid-area -->
+
+  <!-- SUMMARY SIDEBAR -->
+  <div class="summary-area">
+    <h3>Podsumowanie oferty</h3>
+
+    <div class="sum-field">
+      <label>Typ zamówienia</label>
+      <select><option selected>Detaliczna</option><option>Z montażem</option><option>Hurtowa</option></select>
+    </div>
+    <div class="sum-field">
+      <label>Miejsce docelowe (województwo)</label>
+      <select><option selected>Śląskie</option><option>Małopolskie</option><option>Mazowieckie</option></select>
+    </div>
+    <div class="sum-field" style="margin-bottom:16px;">
+      <label>Specjalne warunki</label>
+      <input type="text" placeholder="np. termin, uwagi...">
+    </div>
+
+    <div class="sum-sep"></div>
+
+    <div class="sum-row"><span class="sum-label">Materiały netto</span><span class="sum-value">—</span></div>
+    <div class="sum-row"><span class="sum-label">Obróbki netto</span><span class="sum-value">—</span></div>
+    <div class="sum-row"><span class="sum-label">Montaż netto</span><span class="sum-value">—</span></div>
+    <div class="sum-row"><span class="sum-label">Transport netto</span><span class="sum-value">—</span></div>
+
+    <div class="sum-sep"></div>
+
+    <div class="sum-row"><span class="sum-label" style="font-weight:600;">Razem NETTO</span><span class="sum-value bold">—</span></div>
+    <div class="sum-row"><span class="sum-label">VAT 23%</span><span class="sum-value">—</span></div>
+    <div class="sum-row"><span class="sum-label" style="font-weight:700;">Razem BRUTTO</span><span class="sum-value total">—</span></div>
+
+    <div class="sum-sep"></div>
+
+    <div style="background:#fff8e1;border-left:3px solid #ffc107;padding:8px;font-size:11px;color:#6d4c00;">
+      ⚠️ Ceny materiałów zostaną uzupełnione automatycznie po skonfigurowaniu cenników w BC (mechanizm ceny minimalnej wg szerokości).
+    </div>
+
+    <div style="margin-top:12px;">
+      <button style="width:100%;background:#0078d4;color:#fff;border:none;padding:8px 0;font-size:13px;font-weight:600;cursor:pointer;border-radius:2px;">
+        📤 Przenieś do oferty
+      </button>
+    </div>
+  </div>
+</div>
+
+<div style="height:28px;"></div>
+
+<div class="bc-status">
+  <span>Kalkulacja wierszy oferty · OS/25/07/0024 · Wiersz 10000 · <strong>Widok: Wycena Polska – niecennikowe (PLN)</strong></span>
+  <span>NAV24 · Forma System</span>
+</div>
+
+</body>
+</html>
