@@ -145,7 +145,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
 <!-- LINKED QUOTE FASTTAB -->
 <div class="bc-fasttab">
   <div class="bc-fasttab-header"><span class="chevron">▼</span> Powiązana oferta sprzedaży</div>
-  <div class="bc-fasttab-body">
+  <div class="bc-fasttab-body" style="grid-template-columns:1fr 1fr 1fr 1fr;">
     <div>
       <div class="field-row"><span class="field-label">Nr oferty</span><span class="field-dots"></span><span class="field-value link bold">OS/25/07/0023</span></div>
       <div class="field-row"><span class="field-label">Nabywca</span><span class="field-dots"></span><span class="field-value">PFP Denmark A/S</span></div>
@@ -157,7 +157,12 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
       <div class="field-row"><span class="field-label">Opis</span><span class="field-dots"></span><span class="field-value">Techni Stone Gobby Black 20mm</span></div>
     </div>
     <div>
-      <div class="field-row"><span class="field-label">Cena wiersza oferty</span><span class="field-dots"></span><span class="field-value bold">1 091,00 EUR</span></div>
+      <div class="field-row"><span class="field-label">Data dostawy (tydz.)</span><span class="field-dots"></span><span class="field-value">2025-W32</span></div>
+      <div class="field-row"><span class="field-label">Nr zam. klienta</span><span class="field-dots"></span><span class="field-value">PFP-DK-2025-0312</span></div>
+      <div class="field-row"><span class="field-label">PFP Order No.</span><span class="field-dots"></span><span class="field-value">DK-88412</span></div>
+    </div>
+    <div>
+      <div class="field-row"><span class="field-label">Cena wiersza oferty</span><span class="field-dots"></span><span class="field-value bold">1 236,00 EUR</span></div>
       <div class="field-row"><span class="field-label">Status</span><span class="field-dots"></span><span class="field-value green">Skalkulowano</span></div>
       <div class="field-row"><span class="field-label">Data modyfikacji</span><span class="field-dots"></span><span class="field-value">24.07.2026</span></div>
     </div>
@@ -181,36 +186,35 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
   </div>
 
   <div class="bc-grid-wrap">
-    <table class="bc-grid">
+    <table class="bc-grid" style="min-width:1400px;">
       <thead>
         <!-- Group headers -->
         <tr>
           <th colspan="2"></th>
           <th colspan="4" class="grp">Identyfikacja</th>
-          <th colspan="4" class="grp">Szczegóły zamówienia</th>
+          <th colspan="1" class="grp">Szczegóły</th>
           <th colspan="5" class="grp">Parametry płyty</th>
           <th colspan="4" class="grp">Wycena (EUR)</th>
+          <th colspan="1"></th>
         </tr>
         <tr>
           <th style="width:18px;"></th>
           <th>Typ wiersza</th>
           <th>Nr</th>
-          <th>Materiał</th>
-          <th>Typ materiału</th>
-          <th>Profil</th>
-          <th>Uwagi (Remarks)</th>
-          <th>Data dostawy (tydz.)</th>
-          <th>Nr zam. klienta (Order no.)</th>
-          <th>PFP Order No.</th>
+          <th>Materiał <span style="font-size:9px;color:#888;font-style:italic;">(opis zapasu)</span></th>
+          <th>Typ materiału ▾ <span style="font-size:9px;color:#888;font-style:italic;">(kat. zapasu)</span></th>
+          <th>Profil ▾</th>
+          <th>Uwagi ▾ <span style="font-size:9px;color:#888;font-style:italic;">(słownik)</span></th>
           <th class="num">Dług. (mm)</th>
           <th class="num">Szer. (mm)</th>
           <th class="num">Grub. (mm)</th>
           <th class="num">Pow. rzecz. (m²)</th>
           <th class="num">Waga (kg)</th>
           <th class="num">Wartość (EUR)</th>
-          <th>Typ rabatu</th>
+          <th>Typ rabatu ▾</th>
           <th class="num">Wart. rabatu</th>
           <th class="num">Cena końcowa (EUR)</th>
+          <th class="center">Komentarz</th>
         </tr>
       </thead>
       <tbody>
@@ -220,21 +224,19 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <td><span class="pill mat">Material price</span></td>
           <td><span class="cell-link">TECH-GOB-BLK-20</span></td>
           <td>Techni Stone Gobby Black</td>
-          <td>Quartz</td>
-          <td>P1</td>
-          <td>Gobby Black 20mm slab</td>
-          <td>2025-W32</td>
-          <td>PFP-DK-2025-0312</td>
-          <td>DK-88412</td>
+          <td><span class="cell-dd">Quartz</span></td>
+          <td><span class="cell-dd">P1</span></td>
+          <td><span class="cell-dd">20</span></td>
           <td class="num">1 200</td>
           <td class="num">600</td>
           <td class="num">20</td>
           <td class="num">0,72</td>
           <td class="num">28,1</td>
           <td class="num">756,00</td>
-          <td>—</td>
+          <td><span class="cell-dd">—</span></td>
           <td class="num">—</td>
           <td class="num"><strong>756,00</strong></td>
+          <td class="center">☐</td>
         </tr>
         <!-- Row 2: Add. Profile -->
         <tr>
@@ -242,21 +244,19 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <td><span class="pill proc">Add. Profile (P2)</span></td>
           <td><span class="cell-link">PROF-P2-DK</span></td>
           <td>—</td>
-          <td>—</td>
-          <td>P2</td>
-          <td>Additional polished edge P2</td>
-          <td>—</td>
-          <td>—</td>
-          <td>—</td>
+          <td><span class="cell-dd">—</span></td>
+          <td><span class="cell-dd">P2</span></td>
+          <td><span class="cell-dd">—</span></td>
           <td class="num">1 200</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">60,00</td>
-          <td>—</td>
+          <td><span class="cell-dd">—</span></td>
           <td class="num">—</td>
           <td class="num"><strong>60,00</strong></td>
+          <td class="center">☐</td>
         </tr>
         <!-- Row 3: Sink Hole -->
         <tr>
@@ -264,21 +264,19 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <td><span class="pill proc">Sink Hole</span></td>
           <td><span class="cell-link">HOLE-SH-STD</span></td>
           <td>—</td>
-          <td>—</td>
-          <td>—</td>
-          <td>Standard sink cutout</td>
-          <td>—</td>
-          <td>—</td>
-          <td>—</td>
+          <td><span class="cell-dd">—</span></td>
+          <td><span class="cell-dd">—</span></td>
+          <td><span class="cell-dd">30</span></td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">85,00</td>
-          <td>—</td>
+          <td><span class="cell-dd">—</span></td>
           <td class="num">—</td>
           <td class="num"><strong>85,00</strong></td>
+          <td class="center">☐</td>
         </tr>
         <!-- Row 4: Cooker Hole -->
         <tr>
@@ -286,21 +284,19 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <td><span class="pill proc">Cooker Hole</span></td>
           <td><span class="cell-link">HOLE-CH-STD</span></td>
           <td>—</td>
-          <td>—</td>
-          <td>—</td>
-          <td>Cooker cutout 900×500</td>
-          <td>—</td>
-          <td>—</td>
-          <td>—</td>
+          <td><span class="cell-dd">—</span></td>
+          <td><span class="cell-dd">—</span></td>
+          <td><span class="cell-dd">40</span></td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">65,00</td>
-          <td>—</td>
+          <td><span class="cell-dd">—</span></td>
           <td class="num">—</td>
           <td class="num"><strong>65,00</strong></td>
+          <td class="center">☐</td>
         </tr>
         <!-- Row 5: Hole strengthening -->
         <tr>
@@ -308,21 +304,19 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <td><span class="pill proc">Hole strengthen.</span></td>
           <td><span class="cell-link">HOLE-STR-KEVLAR</span></td>
           <td>—</td>
-          <td>—</td>
-          <td>—</td>
-          <td>Kevlar rod reinforcement</td>
-          <td>—</td>
-          <td>—</td>
-          <td>—</td>
+          <td><span class="cell-dd">—</span></td>
+          <td><span class="cell-dd">—</span></td>
+          <td><span class="cell-dd">50</span></td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">40,00</td>
-          <td>—</td>
+          <td><span class="cell-dd">—</span></td>
           <td class="num">—</td>
           <td class="num"><strong>40,00</strong></td>
+          <td class="center">☐</td>
         </tr>
         <!-- Row 6: Transport -->
         <tr>
@@ -330,33 +324,31 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
           <td><span class="pill trans">Transport</span></td>
           <td><span class="cell-link">TRANS-DK-SEA</span></td>
           <td>—</td>
-          <td>—</td>
-          <td>—</td>
-          <td>Sea freight + handling DK</td>
-          <td>—</td>
-          <td>—</td>
-          <td>—</td>
+          <td><span class="cell-dd">—</span></td>
+          <td><span class="cell-dd">—</span></td>
+          <td><span class="cell-dd">expo</span></td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">250,00</td>
-          <td>%</td>
+          <td><span class="cell-dd" style="color:#d13438;">%</span></td>
           <td class="num">20,00</td>
           <td class="num"><strong>230,00</strong></td>
+          <td class="center">☐</td>
         </tr>
 
         <!-- New empty row (editing) -->
         <tr>
           <td class="row-ind">*</td>
           <td><span class="cell-dd">Wybierz typ...</span></td>
-          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td></td><td></td><td></td><td></td><td></td>
+          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
         </tr>
-        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
       </tbody>
     </table>
   </div>
