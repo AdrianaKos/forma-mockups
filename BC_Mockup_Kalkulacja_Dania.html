@@ -135,7 +135,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
   <button class="view-btn" onclick="window.location='BC_Mockup_Kalkulacja_PL_Niecennikowe.html'">🇵🇱 Wycena Polska – niecennikowe</button>
   <div class="view-sep"></div>
   <button class="view-btn action">💰 Aktualizuj cenę na ofercie</button>
-  <button class="view-btn">📋 Przenieś wiersze jako komentarz</button>
+  <button class="view-btn action">📋 Aktualizuj wiersze na ofercie</button>
   <button class="view-btn">📜 Change Log</button>
   <div class="view-bar-right">
     <button class="view-bar-icon" title="Udostępnij">📤</button>
@@ -146,7 +146,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
 <!-- LINKED QUOTE FASTTAB -->
 <div class="bc-fasttab">
   <div class="bc-fasttab-header"><span class="chevron">▼</span> Powiązana oferta sprzedaży</div>
-  <div class="bc-fasttab-body" style="grid-template-columns:1fr 1fr 1fr 1fr;">
+  <div class="bc-fasttab-body" style="grid-template-columns:1fr 1fr 1fr;">
     <div>
       <div class="field-row"><span class="field-label">Nr oferty</span><span class="field-dots"></span><span class="field-value link bold">OS/25/07/0023</span></div>
       <div class="field-row"><span class="field-label">Nabywca</span><span class="field-dots"></span><span class="field-value">PFP Denmark A/S</span></div>
@@ -158,21 +158,16 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
       <div class="field-row"><span class="field-label">Opis</span><span class="field-dots"></span><span class="field-value">Techni Stone Gobby Black 20mm</span></div>
     </div>
     <div>
-      <div class="field-row"><span class="field-label">Data dostawy (tydz.)</span><span class="field-dots"></span><span class="field-value">2025-W32</span></div>
-      <div class="field-row"><span class="field-label">Nr zam. klienta</span><span class="field-dots"></span><span class="field-value">PFP-DK-2025-0312</span></div>
-      <div class="field-row"><span class="field-label">PFP Order No.</span><span class="field-dots"></span><span class="field-value">DK-88412</span></div>
-    </div>
-    <div>
-      <div class="field-row"><span class="field-label">Cena wiersza oferty</span><span class="field-dots"></span><span class="field-value bold">1 236,00 EUR</span></div>
+      <div class="field-row"><span class="field-label">Tryb kalkulacji</span><span class="field-dots"></span><span class="field-value"><span class="badge">Wycena Dania</span></span></div>
       <div class="field-row"><span class="field-label">Status</span><span class="field-dots"></span><span class="field-value green">Skalkulowano</span></div>
-      <div class="field-row"><span class="field-label">Data modyfikacji</span><span class="field-dots"></span><span class="field-value">24.07.2026</span></div>
+      <div class="field-row"><span class="field-label">Data modyfikacji</span><span class="field-dots"></span><span class="field-value">13.08.2026</span></div>
+      <div class="field-row"><span class="field-label">Cena wiersza oferty</span><span class="field-dots"></span><span class="field-value bold">1 326,00 EUR</span></div>
     </div>
   </div>
 </div>
 
 <div class="info-note">
-  <strong>Widok: Wycena Dania</strong> – kalkulacja per płyta, waluta EUR, format zgodny z plikiem incoming.
-  Wszystkie kolumny identyczne jak w zakładce Incoming 2026.
+  <strong>Widok: Wycena Dania</strong> – kalkulacja per płyta w EUR. Każda obróbka (profil, wycięcie, montaż, transport) to osobny wiersz kalkulacyjny. Kolumna <strong>Typ</strong> (Zapas/Zasób/Konto KG) podpowiada się automatycznie z Typ wiersza. Profil = osobny wiersz z Typ wiersza = Profil (nie kolumna). Cena mat./mb (R) dotyczy wyłącznie wiersza materiałowego; dla zasobów cena pochodzi z cennika zasobu.
 </div>
 
 <!-- SUBFORM: Wiersze kalkulacyjne -->
@@ -187,172 +182,191 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
   </div>
 
   <div class="bc-grid-wrap">
-    <table class="bc-grid" style="min-width:1400px;">
+    <table class="bc-grid" style="min-width:1500px;">
       <thead>
         <!-- Group headers -->
         <tr>
-          <th colspan="2"></th>
-          <th colspan="4" class="grp">Identyfikacja</th>
-          <th colspan="1" class="grp">Szczegóły</th>
-          <th colspan="5" class="grp">Parametry płyty</th>
-          <th colspan="4" class="grp">Wycena (EUR)</th>
           <th colspan="1"></th>
+          <th colspan="4" class="grp">Identyfikacja</th>
+          <th colspan="6" class="grp">Parametry płyty</th>
+          <th colspan="7" class="grp">Wycena (EUR)</th>
         </tr>
         <tr>
           <th style="width:18px;"></th>
-          <th>Typ wiersza</th>
+          <th>Typ ▾ <span style="font-size:9px;color:#888;font-style:italic;">(Zapas/Zasób/KG)</span></th>
+          <th>Typ wiersza ▾</th>
           <th>Nr</th>
-          <th>Materiał <span style="font-size:9px;color:#888;font-style:italic;">(opis zapasu)</span></th>
-          <th>Typ materiału ▾ <span style="font-size:9px;color:#888;font-style:italic;">(kat. zapasu)</span></th>
-          <th>Profil ▾</th>
-          <th>Uwagi ▾ <span style="font-size:9px;color:#888;font-style:italic;">(słownik)</span></th>
+          <th>Opis</th>
           <th class="num">Dług. (mm)</th>
           <th class="num">Szer. (mm)</th>
           <th class="num">Grub. (mm)</th>
+          <th class="num">Liczba otw.</th>
           <th class="num">Pow. rzecz. (m²)</th>
           <th class="num">Waga (kg)</th>
+          <th class="num">Cena mat./mb (R)</th>
+          <th class="num" style="color:#888;font-style:italic;" title="Informacyjne – bez formuły">Price for whole slab</th>
           <th class="num">Wartość (EUR)</th>
           <th>Typ rabatu ▾</th>
           <th class="num">Wart. rabatu</th>
           <th class="num">Cena końcowa (EUR)</th>
           <th class="center">Komentarz</th>
-          <th class="center">Pokaż na ofercie</th>
         </tr>
       </thead>
       <tbody>
-        <!-- Row 1: selected - Material price -->
+        <!-- Row 1: selected - Materiał -->
         <tr class="selected">
           <td class="row-ind">→</td>
-          <td><span class="pill mat">Material price</span></td>
+          <td><span class="cell-dd">Zapas</span></td>
+          <td><span class="pill mat">Materiał</span></td>
           <td><span class="cell-link">TECH-GOB-BLK-20</span></td>
-          <td>Techni Stone Gobby Black</td>
-          <td><span class="cell-dd">Quartz</span></td>
-          <td><span class="cell-dd">P1</span></td>
-          <td><span class="cell-dd">20</span></td>
+          <td>Techni Stone Gobby Black 20mm</td>
           <td class="num">1 200</td>
           <td class="num">600</td>
           <td class="num">20</td>
+          <td class="num">1</td>
           <td class="num">0,72</td>
-          <td class="num">28,1</td>
+          <td class="num">21,8</td>
+          <td class="num">630,00</td>
+          <td class="num" style="color:#888;">—</td>
           <td class="num">756,00</td>
           <td><span class="cell-dd">—</span></td>
           <td class="num">—</td>
           <td class="num"><strong>756,00</strong></td>
           <td class="center">☐</td>
-          <td class="center">☑</td>
         </tr>
-        <!-- Row 2: Add. Profile -->
+        <!-- Row 2: Profil P1 (osobny wiersz) -->
         <tr>
           <td class="row-ind"></td>
-          <td><span class="pill proc">Add. Profile (P2)</span></td>
-          <td><span class="cell-link">PROF-P2-DK</span></td>
-          <td>—</td>
-          <td><span class="cell-dd">—</span></td>
-          <td><span class="cell-dd">P2</span></td>
-          <td><span class="cell-dd">—</span></td>
+          <td><span class="cell-dd">Zasób</span></td>
+          <td><span class="pill proc">Profil</span></td>
+          <td><span class="cell-link">PROF-P1-DK</span></td>
+          <td>Profile P1 (polished both sides)</td>
           <td class="num">1 200</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num" style="color:#888;">—</td>
+          <td class="num">90,00</td>
+          <td><span class="cell-dd">—</span></td>
+          <td class="num">—</td>
+          <td class="num"><strong>90,00</strong></td>
+          <td class="center">☐</td>
+        </tr>
+        <!-- Row 3: Profil P2 (osobny wiersz) -->
+        <tr>
+          <td class="row-ind"></td>
+          <td><span class="cell-dd">Zasób</span></td>
+          <td><span class="pill proc">Profil</span></td>
+          <td><span class="cell-link">PROF-P2-DK</span></td>
+          <td>Profile P2 (add. polished)</td>
+          <td class="num">1 200</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>          <td class="num">—</td>
+          <td class="num" style="color:#888;">—</td>          <td class="num">—</td>
+          <td class="num" style="color:#888;">—</td>
           <td class="num">60,00</td>
           <td><span class="cell-dd">—</span></td>
           <td class="num">—</td>
           <td class="num"><strong>60,00</strong></td>
           <td class="center">☐</td>
-          <td class="center">☑</td>
         </tr>
-        <!-- Row 3: Sink Hole -->
+        <!-- Row 4: Sink Hole -->
         <tr>
           <td class="row-ind"></td>
-          <td><span class="pill proc">Sink Hole</span></td>
+          <td><span class="cell-dd">Zasób</span></td>
+          <td><span class="pill proc">Otwór-zlew</span></td>
           <td><span class="cell-link">HOLE-SH-STD</span></td>
-          <td>—</td>
-          <td><span class="cell-dd">—</span></td>
-          <td><span class="cell-dd">—</span></td>
-          <td><span class="cell-dd">30</span></td>
+          <td>Sink Hole standard</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num" style="color:#888;">—</td>
           <td class="num">85,00</td>
           <td><span class="cell-dd">—</span></td>
           <td class="num">—</td>
           <td class="num"><strong>85,00</strong></td>
           <td class="center">☐</td>
-          <td class="center">☑</td>
         </tr>
-        <!-- Row 4: Cooker Hole -->
+        <!-- Row 5: Cooker Hole -->
         <tr>
           <td class="row-ind"></td>
-          <td><span class="pill proc">Cooker Hole</span></td>
+          <td><span class="cell-dd">Zasób</span></td>
+          <td><span class="pill proc">Otwór-grzewcza</span></td>
           <td><span class="cell-link">HOLE-CH-STD</span></td>
-          <td>—</td>
-          <td><span class="cell-dd">—</span></td>
-          <td><span class="cell-dd">—</span></td>
-          <td><span class="cell-dd">40</span></td>
+          <td>Cooker Hole standard</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num" style="color:#888;">—</td>
           <td class="num">65,00</td>
           <td><span class="cell-dd">—</span></td>
           <td class="num">—</td>
           <td class="num"><strong>65,00</strong></td>
           <td class="center">☐</td>
-          <td class="center">☑</td>
         </tr>
-        <!-- Row 5: Hole strengthening -->
+        <!-- Row 6: Hole strengthening -->
         <tr>
           <td class="row-ind"></td>
-          <td><span class="pill proc">Hole strengthen.</span></td>
+          <td><span class="cell-dd">Zasób</span></td>
+          <td><span class="pill proc">Wzmocnienie</span></td>
           <td><span class="cell-link">HOLE-STR-KEVLAR</span></td>
-          <td>—</td>
-          <td><span class="cell-dd">—</span></td>
-          <td><span class="cell-dd">—</span></td>
-          <td><span class="cell-dd">50</span></td>
+          <td>Hole strengthening (kevlar)</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num" style="color:#888;">—</td>
           <td class="num">40,00</td>
           <td><span class="cell-dd">—</span></td>
           <td class="num">—</td>
           <td class="num"><strong>40,00</strong></td>
           <td class="center">☐</td>
-          <td class="center">☑</td>
         </tr>
-        <!-- Row 6: Transport -->
+        <!-- Row 7: Transport -->
         <tr>
           <td class="row-ind"></td>
+          <td><span class="cell-dd">Zasób</span></td>
           <td><span class="pill trans">Transport</span></td>
           <td><span class="cell-link">TRANS-DK-SEA</span></td>
-          <td>—</td>
-          <td><span class="cell-dd">—</span></td>
-          <td><span class="cell-dd">—</span></td>
-          <td><span class="cell-dd">expo</span></td>
+          <td>Transport DK – morski</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
           <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num">—</td>
+          <td class="num" style="color:#888;">—</td>
           <td class="num">250,00</td>
-          <td><span class="cell-dd" style="color:#d13438;">%</span></td>
+          <td><span class="cell-dd" style="color:#d13438;">Kwota</span></td>
           <td class="num">20,00</td>
           <td class="num"><strong>230,00</strong></td>
           <td class="center">☐</td>
-          <td class="center">☑</td>
         </tr>
 
         <!-- New empty row (editing) -->
         <tr>
           <td class="row-ind">*</td>
-          <td><span class="cell-dd">Wybierz typ...</span></td>
-          <td></td><td></td><td></td><td></td><td></td>
-          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          <td><span class="cell-dd">Zapas</span></td>
+          <td><span class="cell-dd">Wybierz typ wiersza...</span></td>
+          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
         </tr>
         <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
         <tr class="empty-row"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -364,11 +378,11 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
 
 <!-- TOTALS -->
 <div class="bc-totals">
-  <div style="font-size:12px;color:#605e5c;margin-right:auto;">Wiersze: 6 &nbsp;|&nbsp; Parametry płyty: 1 200 × 600 × 20 mm &nbsp;|&nbsp; Pow. rzecz.: 0,72 m²</div>
+  <div style="font-size:12px;color:#605e5c;margin-right:auto;">Wiersze: 7 &nbsp;|&nbsp; Pow. rzecz.: 0,72 m² &nbsp;|&nbsp; Waga: 21,8 kg</div>
   <div class="totals-group">
-    <div class="total-row"><span class="total-label">Suma wartości</span><span class="total-value">1 256,00 EUR</span></div>
+    <div class="total-row"><span class="total-label">Suma wartości</span><span class="total-value">1 346,00 EUR</span></div>
     <div class="total-row"><span class="total-label">Łączne rabaty</span><span class="total-value">− 20,00 EUR</span></div>
-    <div class="total-row" style="border-top:1px solid #edebe9;padding-top:4px;margin-top:4px;"><span class="total-label"><strong>Łączna cena końcowa</strong></span><span class="total-value main">1 236,00 EUR</span></div>
+    <div class="total-row" style="border-top:1px solid #edebe9;padding-top:4px;margin-top:4px;"><span class="total-label"><strong>Łączna cena końcowa</strong></span><span class="total-value main">1 326,00 EUR</span></div>
   </div>
 </div>
 
@@ -376,7 +390,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 13px; color: #
 
 <!-- STATUS BAR -->
 <div class="bc-status">
-  <span>Kalkulacja wierszy oferty · OS/25/07/0023 · Wiersz 10000 · <strong>Widok: Wycena Dania (DKK/EUR)</strong></span>
+  <span>Kalkulacja wierszy oferty · OS/25/07/0023 · Wiersz 10000 · <strong>Wycena Dania (EUR)</strong> · Pow. 0,72 m² · Waga: 21,8 kg</span>
   <span>NAV24 · Forma System</span>
 </div>
 
